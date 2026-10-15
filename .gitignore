@@ -1,0 +1,13 @@
+# Local tooling / editor / OS
+.claude/
+node_modules/
+.DS_Store
+Thumbs.db
+*.log
+
+# Unused source originals (kept on disk locally, not published)
+assets/couple.png
+assets/outfit.png
+assets/outfit.webp
+assets/parents-ishita.png
+assets/parents-shreyam.png

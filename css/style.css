@@ -1,0 +1,455 @@
+/* =============================================================================
+   Sherish — Ishita & Shreyam · Jaipur "Pink City" wedding site
+   ========================================================================== */
+
+:root{
+  /* Palette tuned to the wedding planner: ivory paper, terracotta, gold, olive-green & lotus rose */
+  --cream:#F7F2E7; --cream-2:#EFE6D1; --sand:#E7D8B6;
+  --blush:#F0BBCE; --rose:#DD8FAB; --rose-deep:#C56E8E;
+  --maroon:#7E3A2A; --maroon-deep:#5E2A1E;   /* warm terracotta-brown (primary rich tone) */
+  --gold:#C2A24E; --gold-lt:#E3C87F; --gold-dk:#9E7C2E;
+  --ink:#4A3426; --ink-soft:#7A5B45;
+  --green:#7E9A4B; --green-dk:#5E7A3A;        /* peacock / foliage */
+  --peacock:#12716b; --teal-deep:#0a2b29;
+
+  --f-script:'Great Vibes', cursive;
+  --f-serif:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --f-sans:'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  --shadow:0 18px 50px -20px rgba(94,55,30,.4);
+  --ease:cubic-bezier(.2,.7,.2,1);
+}
+
+*,*::before,*::after{box-sizing:border-box}
+html{ -webkit-text-size-adjust:100%}
+body{
+  margin:0; font-family:var(--f-sans); color:var(--ink);
+  background:
+    radial-gradient(1200px 600px at 50% -10%, #fff 0%, transparent 60%),
+    radial-gradient(900px 700px at 90% 20%, rgba(231,183,176,.18), transparent 55%),
+    var(--cream);
+  line-height:1.6; overflow-x:hidden;
+}
+body.preload *{transition:none !important; animation:none !important}
+img{max-width:100%; display:block}
+h1,h2,h3{font-family:var(--f-serif); font-weight:600; margin:0; line-height:1.08}
+a{color:inherit}
+button{font-family:inherit}
+
+.eyebrow{
+  font-family:var(--f-sans); font-weight:400; letter-spacing:.34em;
+  text-transform:uppercase; font-size:.7rem; color:var(--gold-dk);
+}
+.eyebrow.center{display:block; text-align:center}
+.section-title{
+  font-size:clamp(2rem,5vw,3.4rem); text-align:center; color:var(--maroon);
+  margin:.2em 0 .6em; font-weight:500;
+}
+.section-title::after{
+  content:"❀"; display:block; color:var(--gold); font-size:.5em; margin-top:.35em; opacity:.8;
+}
+
+/* generic scroll-reveal (JS toggles .is-in) */
+.js .anim{opacity:0; transform:translateY(30px); transition:opacity .9s var(--ease), transform .9s var(--ease)}
+.js .anim.is-in{opacity:1; transform:none}
+
+/* ============================ ambient petals ============================ */
+#petals{position:fixed; inset:0; pointer-events:none; z-index:60; overflow:hidden}
+.petal{position:absolute; top:-6vh; width:14px; height:14px; opacity:.8;
+  background:radial-gradient(circle at 30% 30%, var(--gold-lt), var(--rose));
+  border-radius:80% 0 55% 50%/55% 0 80% 50%;
+  animation:fall linear forwards}
+@keyframes fall{
+  0%{transform:translateY(0) rotate(0); opacity:0}
+  10%{opacity:.85}
+  100%{transform:translateY(112vh) translateX(40px) rotate(420deg); opacity:0}
+}
+
+/* ============================ top bar ============================ */
+#topbar{
+  position:fixed; top:0; left:0; right:0; z-index:50;
+  display:flex; align-items:center; justify-content:space-between;
+  padding:14px clamp(16px,4vw,40px);
+  opacity:0; transform:translateY(-12px); transition:.6s var(--ease); pointer-events:none;
+}
+#topbar.show{opacity:1; transform:none; pointer-events:auto}
+.brand{
+  font-family:var(--f-script); font-size:1.7rem;
+  text-decoration:none; text-shadow:0 1px 0 #fff; letter-spacing:.01em;
+}
+.brand-sher{color:var(--gold-dk)}   /* groom's colour */
+.brand-ish{color:var(--rose-deep)}  /* bride's colour */
+.mute{
+  border:1px solid var(--gold); background:rgba(255,248,236,.94); color:var(--maroon-deep);
+  border-radius:999px; padding:6px 14px; font-size:.7rem; letter-spacing:.15em;
+  text-transform:uppercase; cursor:pointer; transition:.3s}
+.mute:hover{background:var(--gold); color:#fff}
+.mute.playing{background:var(--maroon); color:#fff; border-color:var(--maroon)}
+
+/* ============================ garland progress ============================ */
+#garland{position:fixed; top:0; left:max(8px,1.4vw); height:100vh; width:40px; z-index:40;
+  pointer-events:none; opacity:0; transition:opacity .6s}
+#garland.show{opacity:1}
+.garland__svg{height:100%; width:40px}
+.garland__cord{stroke:rgba(201,162,75,.28); stroke-width:2; stroke-dasharray:2 8; stroke-linecap:round}
+.garland__fill{stroke:var(--gold); stroke-width:3; stroke-linecap:round;
+  stroke-dasharray:1000; stroke-dashoffset:1000}
+.garland__bud{position:absolute; left:8px; top:0; will-change:transform}
+.marigold circle{fill:var(--gold-lt)}
+.marigold__petals circle{fill:#f2a93c}
+.marigold circle:first-child{fill:#e8891f}
+
+/* ============================ entrance transition ============================ */
+#transition{position:fixed; inset:0; z-index:80; pointer-events:none; visibility:hidden}
+#transition.active{visibility:visible}
+.veil{position:absolute; inset:0; background:
+  radial-gradient(circle at 50% 40%, rgba(122,31,43,.0), rgba(94,22,34,.96));
+  opacity:0}
+.rider{position:absolute; bottom:1vh; left:0; width:min(90vw,560px); height:auto; opacity:0; will-change:transform}
+.rider .ln{stroke:rgba(255,255,255,.25); stroke-width:2}
+.rider .ln2{stroke:var(--gold-lt); stroke-width:1.5}
+.fillGold{fill:var(--gold-lt)} .fillMaroon{fill:#8d2733}
+.cabinCurtain{fill:#a83544; stroke:var(--gold-lt); stroke-width:1}
+.stk{stroke:#7a1f2b; stroke-width:3; fill:none; stroke-linecap:round}
+.trunk{stroke:#8d2733; stroke-width:6; fill:none; stroke-linecap:round}
+.eyeDot{fill:#fff} .dhol{fill:#c9a24b; stroke:#7a1f2b; stroke-width:1.5}
+
+/* ============================ LANDING ============================ */
+.landing{position:relative; height:100svh; min-height:560px; display:flex; overflow:hidden;
+  background:linear-gradient(#f7ead4,#efdcc0)}
+.half{
+  position:relative; flex:1 1 50%; height:100%; border:0; padding:0; cursor:pointer;
+  background:transparent; overflow:hidden; transition:flex-basis .7s var(--ease);
+  display:flex; align-items:flex-end; justify-content:center;
+}
+.half::after{content:""; position:absolute; inset:0;
+  background:linear-gradient(180deg, transparent 58%, rgba(120,60,40,.14));
+  z-index:2; pointer-events:none}
+.half--ishita{background:linear-gradient(165deg,#f7dad7 0%,#efc7c1 55%,#e6b2aa 100%)}
+.half--shreyam{background:linear-gradient(165deg,#f7ead0 0%,#eed8a8 55%,#e5cd97 100%)}
+.half__img{position:absolute; top:3vh; left:0; right:0; bottom:12vh; z-index:1;
+  display:flex; align-items:flex-end; justify-content:center}
+.half__img img{width:100%; height:100%; object-fit:contain; object-position:bottom center;
+  filter:grayscale(1) brightness(1.05); opacity:.12; clip-path:inset(0 0 100% 0)}
+body:not(.preload) .half--ishita .half__img img{animation:ink 2.6s var(--ease) .25s forwards}
+body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) .55s forwards}
+@keyframes ink{
+  0%{clip-path:inset(0 0 100% 0); filter:grayscale(1) brightness(1.08); opacity:.12}
+  45%{clip-path:inset(0 0 0 0); filter:grayscale(1) brightness(1.06); opacity:.72}
+  100%{clip-path:inset(0 0 0 0); filter:grayscale(0) brightness(1) drop-shadow(0 14px 18px rgba(90,40,35,.22)); opacity:1}
+}
+@media(hover:hover){ .landing:hover .half{flex-basis:44%} .landing .half:hover{flex-basis:56%} }
+.half__cap{position:relative; z-index:3; text-align:center; color:#fff;
+  width:fit-content; max-width:88%; margin:0 auto 5vh; padding:12px 24px 14px;
+  border-radius:16px; background:linear-gradient(180deg, rgba(74,42,28,.5), rgba(74,42,28,.76));
+  text-shadow:0 1px 8px rgba(0,0,0,.45); box-shadow:0 12px 30px -14px rgba(0,0,0,.5)}
+.half__cap .eyebrow{color:var(--gold-lt)}
+.half__cap h2{font-size:clamp(1.5rem,3.4vw,2.4rem); margin:.15em 0 .4em; font-weight:500; color:#fff}
+.tap{display:inline-flex; align-items:center; gap:.5em; font-size:.72rem; letter-spacing:.22em;
+  text-transform:uppercase; opacity:.92}
+.tap em{font-style:normal; color:var(--gold-lt); font-weight:500}
+.tap i{width:7px; height:7px; border-radius:50%; background:var(--gold-lt); box-shadow:0 0 0 0 rgba(228,201,131,.7);
+  animation:pulse 2s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(228,201,131,.6)}70%{box-shadow:0 0 0 12px rgba(228,201,131,0)}100%{box-shadow:0 0 0 0 rgba(228,201,131,0)}}
+
+.landing__seam{position:absolute; top:0; left:50%; transform:translateX(-50%); z-index:4;
+  height:100%; display:flex; flex-direction:column; align-items:center; justify-content:center;
+  gap:14px; pointer-events:none; text-align:center; width:min(90vw,520px)}
+.landing__seam::before{display:none}   /* no hard divider — the shared wordmark unites the two sides */
+.wordmark{font-family:var(--f-script); font-size:clamp(2.8rem,6.5vw,5rem); line-height:1; margin:0;
+  text-shadow:0 3px 14px rgba(255,250,240,.55), 0 1px 0 rgba(255,255,255,.5)}
+.wordmark--mobile{display:none}
+.wm-sher{color:var(--gold-dk)}   /* groom's colour, straddling the bride's side */
+.wm-ish{color:var(--rose-deep)}  /* bride's colour, straddling the groom's side */
+.landing__names{font-family:var(--f-serif); font-style:italic; color:var(--maroon);
+  font-size:clamp(1.05rem,2.6vw,1.5rem); margin:0; letter-spacing:.02em;
+  text-shadow:0 1px 0 rgba(255,252,246,.7)}
+.landing__names span{color:var(--gold-dk); padding:0 .18em; font-style:normal}
+.seal{display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.15em;
+  width:min(80vw,380px); aspect-ratio:1; border-radius:50%; padding:7%; pointer-events:none;
+  background:rgba(255,250,240,.84); border:2px solid var(--gold);
+  box-shadow:0 18px 55px -18px rgba(94,22,34,.55), inset 0 0 0 6px rgba(201,162,75,.18)}
+.landing__hint{font-size:.7rem; letter-spacing:.3em; text-transform:uppercase; color:#fff;
+  background:rgba(94,22,34,.5); padding:6px 16px; border-radius:999px; margin:0;
+  animation:breathe 2.6s ease-in-out infinite}
+@keyframes breathe{50%{opacity:.5}}
+
+/* ============================ HOME ============================ */
+.home{min-height:100svh; display:flex; align-items:center; justify-content:center; gap:clamp(24px,5vw,72px);
+  flex-wrap:wrap; padding:14vh clamp(20px,5vw,60px) 12vh; position:relative}
+.home__frame{flex:0 0 auto; width:min(86vw,360px)}
+.jharokha{position:relative; aspect-ratio:3/4; width:100%}
+.jharokha__img{width:100%; height:100%; object-fit:contain; object-position:bottom center;
+  clip-path:url(#archClip); background:var(--cream-2)}
+.jharokha__frame{position:absolute; inset:-3% -6% -1%; width:112%; height:106%; overflow:visible}
+.jh-arch{fill:none; stroke:var(--gold); stroke-width:3}
+.jh-arch-outer{fill:none; stroke:var(--gold-dk); stroke-width:2; opacity:.7}
+.jh-base{fill:var(--gold)}
+.jh-col rect{fill:var(--gold-lt); stroke:var(--gold-dk); stroke-width:1}
+.jh-dome path{fill:var(--gold)}
+.jh-finial{fill:var(--gold-dk)}
+.home__text{flex:1 1 320px; max-width:520px; text-align:center}
+.names{font-size:clamp(2.6rem,8vw,4.6rem); color:var(--maroon); display:flex; flex-direction:column;
+  align-items:center; line-height:.98; font-weight:500}
+.names em{font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.62em; margin:.02em 0}
+.tagline{font-family:var(--f-serif); font-style:italic; font-size:1.4rem; color:var(--ink-soft); margin:.2em 0 .1em}
+.home__date{letter-spacing:.24em; text-transform:uppercase; font-size:.82rem; color:var(--gold-dk); margin:.4em 0 1.4em}
+.countdown{display:flex; gap:clamp(8px,2vw,18px); justify-content:center; flex-wrap:wrap}
+.cd-box{min-width:66px; background:rgba(255,255,255,.88); border:1px solid rgba(201,162,75,.5);
+  border-radius:14px; padding:12px 10px; box-shadow:var(--shadow)}
+.cd-num{font-family:var(--f-serif); font-size:2rem; font-weight:600; color:var(--maroon); line-height:1}
+.cd-lab{font-size:.6rem; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-soft); margin-top:4px}
+.home__scroll{margin-top:2.6rem; font-size:.82rem; letter-spacing:.22em; text-transform:uppercase; color:var(--maroon);
+  font-weight:500; display:inline-flex; flex-direction:column; align-items:center; gap:.6em}
+.home__scroll i{display:flex; align-items:center; justify-content:center; width:42px; height:42px; border:1.5px solid var(--gold);
+  border-radius:50%; font-style:normal; font-size:1.3rem; color:var(--gold-dk); background:rgba(255,250,240,.75);
+  box-shadow:0 8px 18px -6px rgba(94,55,30,.45); animation:bob 1.5s infinite}
+@keyframes bob{50%{transform:translateY(6px)}}
+
+/* ============================ JOURNEY ============================ */
+.journey{position:relative; height:210vh}
+.journey__sticky{position:sticky; top:0; min-height:100svh; display:flex; align-items:center; justify-content:center;
+  padding:4vh clamp(20px,5vw,60px); overflow:hidden}
+.journey__inner{max-width:960px; margin:0 auto; width:100%}
+.journey .section-title{font-size:clamp(1.6rem,4vw,2.5rem); margin:.1em 0 .35em}
+.journey .section-title::after{margin-top:.1em; font-size:.42em}
+.worldwrap{position:relative; max-width:600px; margin:.8rem auto 0}
+.world-sketch{width:100%; height:auto; display:block; filter:drop-shadow(0 10px 18px rgba(120,80,30,.12))}
+.world-ov{position:absolute; inset:0; width:100%; height:100%; overflow:visible}
+.route{fill:none; stroke:var(--maroon); stroke-width:3.5; stroke-linecap:round}
+.pin__halo{fill:rgba(122,31,43,.22); transform-box:fill-box; transform-origin:center; animation:halo 2.4s ease-out infinite}
+.pin__dot{fill:var(--maroon); stroke:#fff; stroke-width:2}
+@keyframes halo{0%{transform:scale(.5); opacity:.85}100%{transform:scale(1.7); opacity:0}}
+.balloon__globe{fill:var(--rose); stroke:#fff; stroke-width:1}
+.balloon__gore{fill:var(--gold-lt); opacity:.6} .balloon__band{fill:none; stroke:var(--gold-dk); stroke-width:1.2}
+.balloon__basket{fill:#7a5230} .balloon__cord{stroke:#7a5230; stroke-width:.9}
+.worldlabel{position:absolute; white-space:nowrap; pointer-events:none;
+  display:inline-flex; align-items:center; gap:.4em; padding:5px 13px 6px; border-radius:999px;
+  background:rgba(255,250,240,.97); border:1.5px solid var(--gold); color:var(--maroon);
+  box-shadow:0 7px 18px -6px rgba(94,55,30,.5)}
+.worldlabel span{font-size:1.05rem; line-height:1}
+.worldlabel b{font-family:var(--f-serif); font-size:1.1rem; font-weight:600; color:var(--maroon)}
+.worldlabel::after{content:""; position:absolute; top:50%; width:9px; height:9px; background:rgba(255,250,240,.97)}
+/* Luxembourg — sits to the LEFT of its pin so the balloon stays visible; tip points right */
+.worldlabel--from{left:50.1%; top:34.2%; transform:translate(calc(-100% - 15px),-50%)}
+.worldlabel--from::after{right:-5px; transform:translate(0,-50%) rotate(45deg); border-top:1.5px solid var(--gold); border-right:1.5px solid var(--gold)}
+/* Bengaluru — sits to the RIGHT of its pin; tip points left */
+.worldlabel--to{left:70.4%; top:58.4%; transform:translate(15px,-50%)}
+.worldlabel--to::after{left:-5px; transform:translate(0,-50%) rotate(45deg); border-bottom:1.5px solid var(--gold); border-left:1.5px solid var(--gold)}
+.journey__meta{text-align:center; margin-top:2.2rem}
+.miles{font-family:var(--f-serif); color:var(--maroon); line-height:1; text-align:center; margin:.2rem 0 .9rem}
+.miles span{font-size:clamp(2.2rem,6.5vw,3.8rem); font-weight:600}
+.miles small{display:block; font-family:var(--f-sans); letter-spacing:.4em; text-transform:uppercase;
+  font-size:.7rem; color:var(--gold-dk); margin-top:.2em}
+.journey__cap{font-family:var(--f-serif); font-style:italic; font-size:clamp(1.3rem,3.2vw,2rem); color:var(--ink-soft); text-align:center; margin-top:.6rem}
+
+/* ============================ VENUE (photo cinema) ============================ */
+.venue{position:relative; height:340vh; background:#1a0e12}
+.venue__sticky{position:sticky; top:0; height:100svh; overflow:hidden; background:#1a0e12}
+.venue__frames{position:absolute; inset:0}
+.vframe{position:absolute; inset:0; margin:0; opacity:0; transition:opacity .9s ease}
+.vframe.is-active{opacity:1}
+.vframe img{width:100%; height:100%; object-fit:cover; transform:scale(1.06)}
+.venue__scrim{position:absolute; inset:0; z-index:1; background:linear-gradient(180deg, rgba(20,10,14,.6) 0%, rgba(20,10,14,.05) 32%, rgba(20,10,14,.08) 62%, rgba(20,10,14,.66) 100%)}
+.venue__overlay{position:absolute; top:13vh; left:0; right:0; text-align:center; color:#fff; z-index:2; padding:0 20px}
+.venue__overlay .eyebrow{color:var(--gold-lt)}
+.venue__overlay h2{font-size:clamp(1.7rem,4.4vw,3rem); color:#fff; margin:.1em 0; text-shadow:0 2px 22px rgba(0,0,0,.6)}
+.venue__overlay p{color:rgba(255,255,255,.9); margin:.2em 0}
+.venue__dates{color:var(--gold-lt) !important; letter-spacing:.2em; text-transform:uppercase; font-size:.74rem; margin-top:.6em !important}
+.venue__now{position:absolute; left:0; right:0; bottom:12vh; text-align:center; color:#fff; z-index:2; padding:0 20px}
+.venue__now-label{display:block; font-family:var(--f-serif); font-size:clamp(1.6rem,4.4vw,2.7rem); font-weight:500; text-shadow:0 2px 22px rgba(0,0,0,.7)}
+.venue__now-sub{display:block; letter-spacing:.26em; text-transform:uppercase; font-size:.72rem; color:var(--gold-lt); margin-top:.4em}
+.venue__track{position:absolute; left:50%; transform:translateX(-50%); bottom:7vh; width:min(60vw,320px); height:2px; background:rgba(255,255,255,.25); z-index:2; border-radius:2px}
+.venue__bar{display:block; height:100%; width:0; background:var(--gold-lt); border-radius:2px}
+
+/* ============================ EVENTS + OUTFITS ============================ */
+.events{padding:12vh clamp(18px,5vw,60px) 8vh; position:relative}
+.events__head{text-align:center; margin-bottom:4vh}
+.crest-motif{display:block; margin:0 auto 6px; height:clamp(160px,26vw,220px); width:auto;
+  filter:drop-shadow(0 8px 16px rgba(120,80,30,.2))}
+.events__sub{color:var(--ink-soft); font-size:.9rem}
+.timeline{position:relative; max-width:600px; margin:0 auto; padding:20px 0; transition:max-width .6s var(--ease)}
+.timeline.wardrobe-on{max-width:1020px}
+.timeline::before{content:""; position:absolute; left:18px; top:0; bottom:0; width:2px;
+  background:linear-gradient(var(--gold-lt),var(--gold),var(--gold-lt)); opacity:.5}
+.event{position:relative; display:flex; align-items:stretch; gap:0; margin:6vh 0 6vh 46px}
+.event__node{position:absolute; left:-46px; top:28px; width:16px; height:16px; border-radius:50%;
+  background:var(--gold); border:3px solid var(--cream); z-index:2; box-shadow:0 0 0 3px rgba(201,162,75,.35)}
+.event__card{flex:1 1 auto; min-width:0; background:rgba(255,255,255,.9); border:1px solid rgba(201,162,75,.4);
+  border-radius:18px; padding:22px 24px; box-shadow:var(--shadow)}
+.event__day{font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--gold-dk)}
+.event__name{font-size:2rem; color:var(--maroon); margin:.05em 0 .02em; font-weight:500}
+.event__fn{font-family:var(--f-serif); font-style:italic; font-size:1.15rem; color:var(--green-dk); margin:0 0 .4em}
+.event__meta{display:flex; gap:1rem; flex-wrap:wrap; color:var(--ink-soft); font-size:.9rem; margin-bottom:.6rem}
+.event__meta b{color:var(--ink); font-weight:500}
+.event__note{color:var(--ink-soft); font-style:italic; font-family:var(--f-serif); font-size:1.1rem; margin:.2em 0 1rem}
+.dress{display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; margin-bottom:1rem}
+.dress__label{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft)}
+.swatches{display:flex; gap:6px}
+.sw{width:22px; height:22px; border-radius:50%; box-shadow:inset 0 0 0 2px rgba(255,255,255,.6), 0 2px 6px rgba(0,0,0,.2);
+  cursor:pointer; transition:transform .25s}
+.sw:hover{transform:scale(1.25)}
+.event__cal{display:inline-flex; align-items:center; gap:.4em; font-size:.74rem; letter-spacing:.12em;
+  text-transform:uppercase; color:var(--maroon); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px}
+.event__cal:hover{color:var(--gold-dk)}
+/* wardrobe planner — hidden until toggled on, then slides out from behind the card */
+.event__media{position:relative; display:flex; flex-direction:column; flex:0 0 0%; width:0; opacity:0; overflow:hidden;
+  border-radius:18px; align-self:stretch; min-height:320px; transform:translateX(-24px); pointer-events:none;
+  background:radial-gradient(circle at 50% 30%, #fff, var(--cream-2)); border:1px solid rgba(201,162,75,0);
+  transition:flex-basis .6s var(--ease), opacity .5s ease, transform .6s var(--ease), margin-left .6s var(--ease), border-color .6s, box-shadow .6s}
+.timeline.wardrobe-on .event__media{flex:0 0 44%; opacity:1; transform:none; margin-left:26px; pointer-events:auto;
+  border-color:rgba(201,162,75,.4); box-shadow:var(--shadow)}
+.event__dress{flex:0 0 auto; text-align:center; background:var(--green-dk); color:#fff; font-family:var(--f-serif);
+  font-size:1.1rem; letter-spacing:.02em; padding:9px 14px; white-space:nowrap}
+.event__media img{flex:1 1 auto; width:100%; min-height:0; object-fit:contain; padding:12px; transform:scale(.97); transition:transform .6s var(--ease)}
+.timeline.wardrobe-on .event__media img{transform:scale(1)}
+/* floating wardrobe-planner toggle (visible only while the events section is on screen) */
+.wardrobe-btn{position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(18px); z-index:65;
+  display:inline-flex; align-items:center; gap:.4em; padding:13px 24px; border-radius:999px; border:1px solid var(--gold);
+  background:var(--maroon); color:#fff; font-family:var(--f-sans); font-size:.82rem; letter-spacing:.04em; cursor:pointer;
+  box-shadow:0 14px 34px -10px rgba(94,55,30,.6); opacity:0; pointer-events:none;
+  transition:opacity .4s, transform .4s var(--ease), background .3s}
+.wardrobe-btn.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0)}
+.wardrobe-btn:hover{background:var(--maroon-deep)}
+.wardrobe-btn.is-on{background:var(--green-dk); border-color:var(--green)}
+.wardrobe-btn span{opacity:.72; font-size:.92em}
+/* larger event boxes on desktop (mobile keeps its compact layout) */
+@media(min-width:761px){
+  .timeline{max-width:640px}
+  .timeline.wardrobe-on{max-width:1040px}
+  .event{margin:8vh 0 8vh 54px}
+  .event__node{left:-54px}
+  .event__card{padding:28px 34px}
+  .event__name{font-size:2.4rem}
+  .event__note{font-size:1.24rem}
+  .event__meta{font-size:1rem}
+  .event__day{font-size:.78rem}
+  .event__card .sw{width:26px; height:26px}
+}
+
+/* ============================ FINALE ============================ */
+.finale{position:relative; background:
+  radial-gradient(900px 500px at 50% 120%, rgba(201,162,75,.25), transparent 60%),
+  linear-gradient(160deg,var(--maroon),var(--maroon-deep)); color:#fff; overflow:hidden}
+.finale__inner{position:relative; z-index:2; text-align:center; padding:16vh clamp(20px,5vw,60px) 8vh; max-width:800px; margin:0 auto}
+.finale__petals{position:absolute; inset:0; z-index:1; pointer-events:none}
+.finale__hash{font-family:var(--f-script); font-size:2.4rem; color:var(--gold-lt); margin:0 0 .1em}
+.finale__title{font-size:clamp(2rem,6vw,3.4rem); font-weight:500; line-height:1.1}
+.finale__date{letter-spacing:.24em; text-transform:uppercase; font-size:.82rem; color:var(--gold-lt); margin:.8em 0 2em}
+.finale__actions{display:flex; gap:16px; justify-content:center; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; gap:.6em; padding:14px 26px; border-radius:999px;
+  font-size:.82rem; letter-spacing:.14em; text-transform:uppercase; text-decoration:none;
+  font-weight:500; transition:transform .25s var(--ease), box-shadow .25s, background .25s}
+.btn:hover{transform:translateY(-3px)}
+.btn--wa{background:#25D366; color:#053; box-shadow:0 12px 30px -10px rgba(37,211,102,.7)}
+.btn--wa:hover{background:#20c15e}
+.btn--outline{background:transparent; color:#fff; border:1.5px solid var(--gold-lt)}
+.btn--outline:hover{background:var(--gold-lt); color:var(--maroon-deep)}
+.btn[hidden]{display:none}
+.finale__cal{margin-top:2rem; font-size:.8rem; color:rgba(255,255,255,.7); letter-spacing:.04em}
+.finale__cal a{color:var(--gold-lt); text-decoration:none; margin:0 .3em; border-bottom:1px solid transparent}
+.finale__cal a:hover{border-color:var(--gold-lt)}
+.footer{position:relative; z-index:2; text-align:center; padding:6vh 20px 8vh; border-top:1px solid rgba(228,201,131,.25)}
+.footer__mono{font-family:var(--f-script); font-size:2rem; color:#fff; margin:0}
+.footer__mono span{color:var(--gold-lt)}
+.footer__sub{font-size:.74rem; letter-spacing:.2em; text-transform:uppercase; color:rgba(255,255,255,.6); margin:.4em 0 0}
+
+/* ============================ Travel & Stay ============================ */
+.travel{padding:12vh clamp(18px,5vw,60px); position:relative}
+.travel__inner{max-width:1040px; margin:0 auto}
+.travel__grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(255px,1fr)); gap:22px; margin-top:4vh}
+.tcard{background:rgba(255,255,255,.72); border:1px solid rgba(201,162,75,.4); border-radius:18px;
+  padding:26px; box-shadow:var(--shadow)}
+.tcard--intl{border-color:var(--green); box-shadow:0 18px 50px -20px rgba(94,122,58,.4); position:relative}
+.tcard--intl::before{content:"for international guests"; position:absolute; top:-10px; left:20px;
+  background:var(--green-dk); color:#fff; font-size:.58rem; letter-spacing:.14em; text-transform:uppercase;
+  padding:3px 10px; border-radius:999px}
+.tcard__ico{font-size:1.7rem; margin-bottom:.35em}
+.tcard h3{font-size:1.4rem; color:var(--maroon); margin:0 0 .3em; font-weight:500}
+.tcard p{color:var(--ink-soft); font-size:.95rem; line-height:1.6; margin:0}
+.tcard a{color:var(--gold-dk); text-decoration:none; border-bottom:1px solid var(--gold); font-weight:500}
+.tcard a:hover{color:var(--maroon)}
+.tnote{display:inline-block; font-size:.78rem; color:var(--green-dk); font-style:italic; margin-top:.2em}
+.travel__subhead{text-align:center; font-family:var(--f-serif); color:var(--maroon); font-weight:500;
+  font-size:clamp(1.6rem,4vw,2.4rem); margin:8vh 0 .15em}
+.travel__intro{text-align:center; color:var(--ink-soft); max-width:640px; margin:0 auto 1em; font-size:.98rem}
+
+/* ============================ outfit lightbox (mobile only) ============================ */
+.event__view{display:none}
+.omodal{position:fixed; inset:0; z-index:90; display:flex; align-items:center; justify-content:center;
+  padding:20px; background:rgba(58,20,26,.92); opacity:0; visibility:hidden; transition:opacity .3s}
+.omodal.open{opacity:1; visibility:visible}
+.omodal__x{position:absolute; top:14px; right:16px; width:44px; height:44px; border-radius:50%;
+  border:1px solid var(--gold-lt); background:rgba(0,0,0,.3); color:#fff; font-size:1.1rem; cursor:pointer}
+.omodal__card{max-width:520px; width:100%; text-align:center; display:flex; flex-direction:column; align-items:center}
+.omodal__img{max-width:100%; max-height:64vh; object-fit:contain; filter:drop-shadow(0 20px 40px rgba(0,0,0,.5))}
+.omodal__name{font-family:var(--f-serif); color:var(--gold-lt); font-size:1.9rem; margin:.5em 0 .1em; font-weight:500}
+.omodal__dress{color:#fff; letter-spacing:.12em; text-transform:uppercase; font-size:.74rem; margin:0}
+.omodal__sw{display:flex; gap:8px; justify-content:center; margin-top:.9em}
+@media(max-width:760px){
+  .event__media{cursor:pointer}
+  .event__view{display:inline-block; position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
+    background:rgba(122,31,43,.9); color:#fff; font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
+    padding:4px 12px; border-radius:999px; white-space:nowrap; pointer-events:none}
+}
+
+/* ============================ responsive ============================ */
+@media(max-width:760px){
+  .home{gap:24px; padding-top:16vh}
+  .home__frame{width:min(72vw,300px)}
+  .timeline,.timeline.wardrobe-on{max-width:none; margin:0}
+  .event{flex-direction:column; margin:5vh 0 5vh 30px}
+  .event__media{flex:none; width:auto; min-height:0; max-height:0; align-self:auto; transform:none; margin-left:0;
+    transition:max-height .55s var(--ease), opacity .5s, margin-top .5s, border-color .5s, box-shadow .5s}
+  .timeline.wardrobe-on .event__media{max-height:100vw; margin-top:14px; margin-left:0}
+  .event__media img{height:auto}
+  .timeline::before{left:14px}
+  .event__node{left:-30px}
+  .venue{height:200vh}
+  .venue__caption{left:50%; transform:translateX(-50%); bottom:4vh; text-align:center; max-width:88vw}
+  #garland{display:none}
+  /* families stacked vertically on mobile (side-by-side on desktop) */
+  .landing{flex-direction:column}
+  .half{flex:1 1 0; width:100%; min-height:0}
+  .half--ishita{order:0}
+  .half--shreyam{order:2}
+  .half__img{top:1vh; bottom:34%}
+  .half__cap{margin:0 auto 1.4vh; padding:9px 18px 11px}
+  .half__cap h2{font-size:1.15rem; margin:.1em 0 .3em}
+  .half__cap .eyebrow{font-size:.58rem}
+  .tap{font-size:.62rem}
+  /* seal becomes a band BETWEEN the two families (no longer overlapping them) */
+  .landing__seam{position:static; transform:none; left:auto; width:100%; height:auto; order:1; flex:0 0 auto; padding:1vh 0; z-index:1}
+  .landing__seam::before{display:none}
+  .landing__names{display:none}
+  .wordmark--pc{display:none}
+  .wordmark--mobile{display:block; font-size:clamp(1.6rem,6.6vw,2.3rem); line-height:1.25; white-space:nowrap; text-shadow:none;
+    background:linear-gradient(180deg,var(--rose-deep),var(--gold-dk));
+    -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; color:transparent}
+  .seal{width:min(56vw,206px); padding:6%}
+  /* palki / baraat cross along the TOP on mobile so they never cover content */
+  .rider{top:7vh; bottom:auto; width:min(94vw,520px)}
+  /* compact side-labels so Bengaluru (far right) doesn't run off the map on phones */
+  .worldlabel{padding:3px 9px 4px; gap:.3em}
+  .worldlabel span{font-size:.78rem}
+  .worldlabel b{font-size:.82rem}
+  .worldlabel--from{transform:translate(calc(-100% - 9px),-50%)}
+  .worldlabel--to{transform:translate(9px,-50%)}
+}
+@media(max-width:520px){
+  .cd-box{min-width:56px}
+}
+
+/* ============================ still (QA/screenshot freeze) ============================ */
+body.still *, body.still *::before, body.still *::after{animation:none !important; transition:none !important}
+body.still .half__img img{opacity:1 !important; filter:grayscale(0) brightness(1) !important; clip-path:none !important}
+body.still .anim{opacity:1 !important; transform:none !important}
+body.still .garland__fill{stroke-dashoffset:0 !important}
+
+/* ============================ reduced motion ============================ */
+@media(prefers-reduced-motion:reduce){
+  *{animation-duration:.001ms !important; animation-iteration-count:1 !important; transition-duration:.001ms !important; scroll-behavior:auto !important}
+  .half__img img{opacity:1 !important; filter:none !important; clip-path:none !important}
+  .js .anim{opacity:1 !important; transform:none !important}
+  .garland__fill{stroke-dashoffset:0 !important}
+}
