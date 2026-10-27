@@ -13,6 +13,14 @@
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&text=%E0%A4%A6%E0%A5%81%E0%A4%B2%E0%A5%8D%E0%A4%B9%E0%A4%A8%E0%A4%A6%E0%A5%82%E0%A4%B2%E0%A5%8D%E0%A4%B9%E0%A4%BE&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preload" as="image" href="assets/couple.webp" fetchpriority="high">
+  <!-- warm the below-fold scroll-path images during idle so they're cached before you scroll to them
+       (hides the slow GitHub-Pages first-byte latency); the heavy outfit guides stay deferred -->
+  <link rel="prefetch" as="image" href="assets/world-sketch.webp">
+  <link rel="prefetch" as="image" href="assets/venue-courtyard.webp">
+  <link rel="prefetch" as="image" href="assets/venue-night.webp">
+  <link rel="prefetch" as="image" href="assets/venue-lawn.webp">
+  <link rel="prefetch" as="image" href="assets/venue-ballroom.webp">
+  <link rel="prefetch" as="image" href="assets/crest.webp">
   <!-- Arriving from a landing (?side=): set html.entering BEFORE first paint so the whole entrance
        (translucent veil + palki/baraat parade + lift) runs in pure CSS and starts the instant the page
        paints — it never waits for main.js/GSAP to download, so nothing ever sits frozen. -->
