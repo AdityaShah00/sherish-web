@@ -217,21 +217,16 @@
     gsap.set([palki, baraat], { opacity: 0, x: '-140vw' });
     gsap.set('.veil', { opacity: 1 });
     wrap.classList.add('active');
-    var mobile = matchMedia('(max-width:760px)').matches;
-    var half = mobile ? 0.7 : 0.95;  // snappy crossing — was ~3x longer and felt non-responsive
-    var hold = 0.25;
     var tl = gsap.timeline({ onComplete: endTransition });
     if (rider) {
       var w = rider.getBoundingClientRect().width || 600;
       var centerX = (window.innerWidth - w) / 2;
-      gsap.set(rider, { x: '-54vw', opacity: 1 });
-      tl.to(rider, { x: centerX, duration: half, ease: 'power2.out' }, 0.12);
-      tl.to(rider, { x: '124vw', duration: half, ease: 'power2.in' }, 0.12 + half + hold);
-      tl.to(rider.querySelector('.rider__g'), { y: -10, duration: 0.4, yoyo: true, repeat: Math.round((half * 2 + hold) * 2.5), ease: 'sine.inOut' }, 0.12);
+      gsap.set(rider, { x: '-60vw', opacity: 1 });
+      tl.to(rider, { x: centerX, duration: 0.4, ease: 'power2.out' }, 0);        // zip in
+      tl.to(rider, { x: '130vw', duration: 0.45, ease: 'power2.in' }, 0.45);     // zip out
     }
-    var end = 0.12 + half + hold + half;
-    tl.to('.veil', { opacity: 0, duration: 0.55, ease: 'power2.out' }, Math.max(0.5, end - 0.55));
-    setTimeout(function () { if (document.documentElement.classList.contains('entering')) endTransition(); }, (end + 2) * 1000);
+    tl.to('.veil', { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0.3);      // Home interactive ~0.7s
+    setTimeout(function () { if (document.documentElement.classList.contains('entering')) endTransition(); }, 2500);
   }
   // Re-entry in the same session (e.g. comparing themes): skip the crossing — quick veil wipe to Home.
   function quickEnter(side) {
@@ -473,6 +468,8 @@
     var start = '2027-02-23', end = '2027-02-25';
     var toGo = (new Date(start + 'T00:00:00+05:30') - Date.now()) / 86400000;
     var live = (toGo <= 15 && toGo >= -4);
+    var CK = 'sherishWx';
+    if (!live) { try { var _c = JSON.parse(localStorage.getItem(CK) || 'null'); if (_c && _c.h && (Date.now() - _c.t) < 6048e5) { box.innerHTML = _c.h; return; } } catch (e) {} }
     function icon(c){ c = +c;
       if (c === 0) return '☀️'; if (c <= 2) return '🌤️'; if (c === 3) return '☁️';
       if (c === 45 || c === 48) return '🌫️'; if (c >= 51 && c <= 67) return '🌧️';
@@ -486,6 +483,7 @@
              (mn[i] != null ? Math.round(mn[i]) + '°' : '') + '</span></div>';
       }
       box.innerHTML = h + '<span class="wx__note">' + note + ' · Jaipur</span>';
+      try { localStorage.setItem(CK, JSON.stringify({ t: Date.now(), h: box.innerHTML })); } catch (e) {}
     }
     function fail(){ box.innerHTML = '<p class="wx__msg">Forecast unavailable</p>'; }
     if (live) {
@@ -519,8 +517,12 @@
   // Shown by default; hidden only when the visitor's IP geolocates to India. Any failure keeps it shown.
   function initGeoGate() {
     var el = $('#exploreIndia'); if (!el || !window.fetch) return;
+    var GK = 'sherishGeo';
+    try { var g = localStorage.getItem(GK); if (g) { if (g === 'IN') el.hidden = true; return; } } catch (e) {}
     fetch('https://ipapi.co/country/').then(function(r){ return r.text(); }).then(function(cc){
-      if ((cc || '').trim().toUpperCase() === 'IN') el.hidden = true;
+      cc = (cc || '').trim().toUpperCase();
+      if (cc) { try { localStorage.setItem(GK, cc); } catch (e) {} }
+      if (cc === 'IN') el.hidden = true;
     }).catch(function(){});
   }
 

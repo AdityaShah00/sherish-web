@@ -44,7 +44,7 @@ main{
 }
 
 /* ---- the letter ---- */
-.letter{position:relative;width:min(100%,720px);animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+.letter{position:relative;width:min(100%,720px);animation:rise .45s cubic-bezier(.2,.8,.2,1) both}
 .envelope{
   position:absolute;inset:0;filter:drop-shadow(0 24px 30px var(--shadow));
 }
@@ -315,7 +315,7 @@ body.leaving .stamp-link:not(.chosen){opacity:0;transform:translateY(24px) scale
       e.preventDefault();
       document.body.classList.add('leaving');
       a.classList.add('chosen');
-      setTimeout(function(){ window.location.href = a.href; }, 950);
+      setTimeout(function(){ window.location.href = a.href; }, 200);
     });
   });
   window.addEventListener('pageshow', function(){
