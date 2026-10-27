@@ -102,6 +102,9 @@ button{font-family:inherit}
 /* ============================ entrance transition ============================ */
 #transition{position:fixed; inset:0; z-index:80; pointer-events:none; visibility:hidden}
 #transition.active{visibility:visible}
+/* arriving from a landing (?side=): cover the screen before first paint so Home never flashes */
+html.entering #transition{visibility:visible}
+html.entering .veil{opacity:1}
 .veil{position:absolute; inset:0; background:
   radial-gradient(circle at 50% 40%, rgba(122,31,43,.0), rgba(94,22,34,.96));
   opacity:0}

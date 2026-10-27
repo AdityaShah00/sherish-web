@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ishita &amp; Shreyam · #Sherish · Jaipur, February 2027</title>
+<meta name="description" content="The wedding of Ishita and Shreyam. Jaipur, 23–24 February 2027. Pick a card to enter.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#F7F2E7; --ink:#4A3426; --maroon:#7E3A2A;
+  --gold:#C2A24E; --gold-dk:#9E7C2E; --gold-lt:#E3C87F;
+  --green:#7E9A4B; --green-dk:#5E7A3A;
+  --rose:#DD8FAB; --rose-deep:#C56E8E; --blush:#F0BBCE;
+  --her-bg:linear-gradient(165deg,#f7dad7 0%,#efc7c1 55%,#e6b2aa 100%);
+  --his-bg:linear-gradient(165deg,#f7ead0 0%,#eed8a8 55%,#e5cd97 100%);
+  --skin:#E2B08A;
+  --sky:#CFE2DC;
+  --felt:#4E6830;
+  --shade:rgba(38,46,20,.55);
+  --card-edge:rgba(74,52,38,.12);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{
+  min-height:100vh;background:var(--felt);color:var(--cream);
+  font-family:'Jost',system-ui,sans-serif;font-weight:400;
+  overflow-x:hidden;-webkit-font-smoothing:antialiased;
+}
+.damask{position:fixed;inset:0;width:100%;height:100%;opacity:.32;pointer-events:none;z-index:0}
+.vignette{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:radial-gradient(ellipse at 50% 45%,transparent 35%,var(--shade) 100%)}
+main{
+  position:relative;z-index:1;min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(1.1rem,3.5vw,2rem);padding:clamp(1.5rem,5vw,3rem) 1rem;
+}
+
+/* ---- header plaque ---- */
+.plaque{
+  background:var(--cream);color:var(--ink);text-align:center;
+  padding:1rem 1.6rem .95rem;border-radius:20px;max-width:min(92vw,440px);
+  box-shadow:0 0 0 4px var(--felt),0 0 0 5px var(--gold-lt),0 20px 40px -18px var(--shade);
+  animation:rise .9s cubic-bezier(.2,.8,.2,1) both;
+}
+.eyebrow{font-size:.64rem;letter-spacing:.28em;text-transform:uppercase;color:var(--maroon);font-weight:500}
+h1{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1.85rem,7vw,2.7rem);line-height:1.05;margin:.3rem 0 0}
+h1 .amp{font-family:'Great Vibes',cursive;font-weight:400;color:var(--gold-dk);padding:0 .08em}
+.wordmark{font-family:'Great Vibes',cursive;font-size:clamp(1.5rem,5.6vw,2.1rem);line-height:1.1}
+.sher{color:var(--gold-dk)} .ish{color:var(--rose-deep)}
+.date{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;color:var(--ink);opacity:.8;margin-top:.2rem}
+.greet{
+  font-family:'Cormorant Garamond',serif;font-style:italic;font-weight:400;
+  font-size:clamp(1.08rem,3.8vw,1.4rem);line-height:1.35;text-align:center;max-width:32ch;
+  animation:rise .9s .15s cubic-bezier(.2,.8,.2,1) both;
+}
+
+/* ---- the deck ---- */
+.deck{display:flex;justify-content:center;align-items:center;width:100%;padding:.75rem 0 1rem}
+.card{
+  width:min(44vw,250px);aspect-ratio:5/7;position:relative;display:block;
+  text-decoration:none;color:var(--ink);perspective:1100px;outline:none;
+  -webkit-tap-highlight-color:transparent;
+  transition:transform .55s cubic-bezier(.2,.8,.2,1),opacity .45s ease;
+  animation:deal .9s cubic-bezier(.2,.8,.2,1) backwards;
+}
+#enter-ishita{transform:rotate(-8deg) translate(8%,3%);z-index:2;animation-delay:.25s}
+#enter-shreyam{transform:rotate(7deg) translate(-8%,-4%);z-index:1;animation-delay:.4s}
+.card:hover,.card:focus-visible{transform:rotate(0) translateY(-7%) scale(1.04);z-index:3}
+.card:focus-visible .face{box-shadow:0 0 0 3px var(--gold-lt),0 22px 40px -16px var(--shade)}
+.float{position:absolute;inset:0;animation:bob 5.5s ease-in-out infinite}
+#enter-shreyam .float{animation-delay:-2.7s}
+.inner{position:absolute;inset:0;transform-style:preserve-3d;transition:transform .85s cubic-bezier(.3,.7,.2,1)}
+.face,.back{
+  position:absolute;inset:0;border-radius:clamp(10px,2.4vw,16px);
+  backface-visibility:hidden;-webkit-backface-visibility:hidden;
+  box-shadow:0 22px 40px -16px var(--shade),0 2px 0 var(--card-edge);
+}
+.face{background:var(--cream);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:12% 8% 10%}
+.pip{position:absolute;display:flex;flex-direction:column;align-items:center;
+  font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.15rem,4.4vw,1.85rem);line-height:.9}
+.pip i{font-style:normal;font-size:.72em;margin-top:.1em}
+.pip--tl{top:4.5%;left:5.5%} .pip--br{bottom:4.5%;right:5.5%;transform:rotate(180deg)}
+#enter-ishita .pip i{color:var(--rose-deep)} #enter-shreyam .pip i{color:var(--gold-dk)}
+.frame{width:68%;height:auto;display:block}
+.name{font-family:'Cormorant Garamond',serif;font-weight:600;font-size:clamp(1.05rem,4.3vw,1.7rem);line-height:1;margin-top:.4em}
+.role{font-size:clamp(.48rem,1.8vw,.64rem);letter-spacing:.24em;text-transform:uppercase;color:var(--maroon);margin-top:.4em;font-weight:500}
+
+.back{transform:rotateY(180deg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:.35rem;text-align:center;padding:10%}
+.back::before{content:"";position:absolute;inset:6%;border:1.5px solid var(--gold);border-radius:10px;opacity:.7}
+#enter-ishita .back{background:var(--her-bg)} #enter-shreyam .back{background:var(--his-bg)}
+.back .wordmark{font-size:clamp(1.4rem,5vw,2rem)}
+.back strong{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:clamp(1rem,4vw,1.5rem)}
+.back small{font-size:clamp(.48rem,1.8vw,.62rem);letter-spacing:.28em;text-transform:uppercase;color:var(--maroon)}
+
+.hint{display:flex;align-items:center;gap:.7em;font-size:.66rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-lt);
+  animation:rise .9s .6s both}
+.hint::before,.hint::after{content:"";width:26px;height:1px;background:currentColor;opacity:.6}
+.foot{font-size:.62rem;letter-spacing:.26em;text-transform:uppercase;color:var(--cream);opacity:.7}
+
+/* ---- leaving ---- */
+body.leaving .card:not(.chosen){opacity:0;transform:translateY(30%) rotate(0) scale(.9)}
+.card.chosen{transform:rotate(0) translateY(-5%) scale(1.07);z-index:4}
+.card.chosen .float{animation-play-state:paused}
+.card.chosen .inner{transform:rotateY(180deg)}
+
+@keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-7px)}}
+@keyframes rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes deal{from{opacity:0;transform:translateY(40%) rotate(0) scale(.85)}}
+
+@media (min-width:768px){
+  .deck{padding:1.5rem 0 2rem}
+  #enter-ishita{transform:rotate(-9deg) translate(10%,5%)}
+  #enter-shreyam{transform:rotate(8deg) translate(-10%,-5%)}
+}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+
+/* temporary preview switcher (top-left) — delete with the losing theme */
+.theme-switch{position:fixed;top:10px;left:10px;z-index:60;display:flex;align-items:center;gap:5px;background:rgba(247,242,231,.94);border:1px solid var(--gold);border-radius:999px;padding:5px 6px 5px 10px;font-family:'Jost',system-ui,sans-serif;font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;box-shadow:0 6px 16px -8px rgba(74,52,38,.55)}
+.theme-switch b{color:var(--maroon);font-weight:600;margin-right:3px;opacity:.75}
+.theme-switch a{text-decoration:none;color:var(--ink);padding:4px 10px;border-radius:999px;font-weight:500}
+.theme-switch a.on{background:var(--gold-dk);color:#fff}
+</style>
+</head>
+<body>
+<nav class="theme-switch" aria-label="Preview — switch landing theme">
+  <b>Preview</b>
+  <a href="index.html">Stamps</a>
+  <a href="cards.html" class="on" aria-current="page">Cards</a>
+</nav>
+
+
+<!-- shared figure art -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <symbol id="fig-ishita" viewBox="0 0 120 150">
+      <path style="fill:var(--ink)" d="M38 50 C28 80 32 104 42 124 L78 124 C88 104 92 80 82 50 Z"/>
+      <path style="fill:var(--rose-deep)" d="M16 150 C18 112 36 96 60 94 C84 96 102 112 104 150 Z"/>
+      <path style="fill:var(--blush)" d="M32 104 C50 116 70 130 84 150 L106 150 C98 126 82 106 62 97 Z"/>
+      <path style="fill:none;stroke:var(--gold);stroke-width:3" d="M32 104 C50 116 70 130 84 150"/>
+      <rect style="fill:var(--skin)" x="53" y="74" width="14" height="22" rx="6"/>
+      <path style="fill:none;stroke:var(--gold);stroke-width:3" d="M48 93 Q60 104 72 93"/>
+      <ellipse style="fill:var(--skin)" cx="60" cy="58" rx="20" ry="24"/>
+      <path style="fill:var(--ink)" d="M39 60 C36 36 48 29 60 29 C72 29 84 36 81 60 C78 47 70 41 60 41 C50 41 42 47 39 60 Z"/>
+      <path style="fill:none;stroke:var(--maroon);stroke-width:2" d="M60 30 V40"/>
+      <circle style="fill:var(--gold)" cx="60" cy="42" r="2.6"/>
+      <circle style="fill:var(--maroon)" cx="60" cy="50" r="2"/>
+      <path style="fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round" d="M48 59 q4 -3 8 0 M64 59 q4 -3 8 0"/>
+      <path style="fill:none;stroke:var(--maroon);stroke-width:2;stroke-linecap:round" d="M55 71 q5 3 10 0"/>
+      <circle style="fill:none;stroke:var(--gold);stroke-width:1.5" cx="65" cy="66" r="2.4"/>
+      <circle style="fill:var(--gold)" cx="40" cy="67" r="3.2"/>
+      <circle style="fill:var(--gold)" cx="80" cy="67" r="3.2"/>
+    </symbol>
+    <symbol id="fig-shreyam" viewBox="0 0 120 150">
+      <path style="fill:var(--gold)" d="M16 150 C18 112 36 96 60 94 C84 96 102 112 104 150 Z"/>
+      <path style="fill:var(--maroon)" d="M28 106 C46 118 64 132 76 150 L92 150 C80 128 62 110 42 99 Z"/>
+      <path style="fill:none;stroke:var(--gold-dk);stroke-width:2" d="M60 100 V150"/>
+      <g style="fill:var(--cream)"><circle cx="60" cy="112" r="1.8"/><circle cx="60" cy="124" r="1.8"/><circle cx="60" cy="136" r="1.8"/></g>
+      <rect style="fill:var(--skin)" x="53" y="76" width="14" height="20" rx="6"/>
+      <path style="fill:none;stroke:var(--gold-dk);stroke-width:3;stroke-linejoin:round" d="M49 94 L60 103 L71 94"/>
+      <ellipse style="fill:var(--skin)" cx="41" cy="62" rx="3.5" ry="5"/>
+      <ellipse style="fill:var(--skin)" cx="79" cy="62" rx="3.5" ry="5"/>
+      <ellipse style="fill:var(--skin)" cx="60" cy="60" rx="19" ry="23"/>
+      <path style="fill:var(--ink)" d="M41.5 58 C41.5 51 43 48 46 46 L46 60 Z M78.5 58 C78.5 51 77 48 74 46 L74 60 Z"/>
+      <path style="fill:var(--maroon)" d="M38 52 C35 30 47 22 60 22 C74 22 86 30 82 52 C76 45 68 42 60 42 C51 42 44 45 38 52 Z"/>
+      <path style="fill:none;stroke:var(--gold);stroke-width:2" d="M39 45 C50 35 70 33 81 43 M42 36 C52 29 68 28 78 34"/>
+      <path style="fill:var(--gold-lt)" d="M65 25 C66 14 73 9 79 4 C76 13 72 20 69 27 Z"/>
+      <circle style="fill:var(--gold)" cx="65" cy="28" r="3.2"/>
+      <path style="fill:none;stroke:var(--maroon);stroke-width:2.5;stroke-linecap:round" d="M60 46 V52"/>
+      <path style="fill:none;stroke:var(--ink);stroke-width:2;stroke-linecap:round" d="M48 59 q4 -3 8 0 M64 59 q4 -3 8 0"/>
+      <path style="fill:var(--ink)" d="M49 70 C53 65 57 67 60 69.5 C63 67 67 65 71 70 C67 72.5 63 72 60 71 C57 72 53 72.5 49 70 Z"/>
+    </symbol>
+  </defs>
+</svg>
+
+<!-- damask table cloth -->
+<svg class="damask" aria-hidden="true" focusable="false">
+  <defs>
+    <pattern id="dmk" width="84" height="84" patternUnits="userSpaceOnUse">
+      <g style="fill:var(--green)">
+        <path id="petal" d="M42 14 C50 24 50 32 42 40 C34 32 34 24 42 14 Z"/>
+        <use href="#petal" transform="rotate(90 42 42)"/>
+        <use href="#petal" transform="rotate(180 42 42)"/>
+        <use href="#petal" transform="rotate(270 42 42)"/>
+        <circle cx="42" cy="42" r="4"/>
+        <circle cx="0" cy="0" r="7"/><circle cx="84" cy="0" r="7"/>
+        <circle cx="0" cy="84" r="7"/><circle cx="84" cy="84" r="7"/>
+      </g>
+    </pattern>
+  </defs>
+  <rect width="100%" height="100%" fill="url(#dmk)"/>
+</svg>
+<div class="vignette" aria-hidden="true"></div>
+
+<main>
+  <header class="plaque">
+    <p class="eyebrow">The wedding of</p>
+    <h1>Ishita <span class="amp">&amp;</span> Shreyam</h1>
+    <p class="wordmark" aria-label="#Sherish"><span class="sher">#Sher</span><span class="ish">ish</span></p>
+    <p class="date">Jaipur · 23 – 24 February 2027</p>
+  </header>
+
+  <p class="greet">Every good game needs a Queen and a King. Pick your card — whose side are you on?</p>
+
+  <div class="deck">
+    <a id="enter-ishita" data-side="ishita" href="story.html?side=ishita" class="card" aria-label="Enter Ishita's side — the bride">
+      <span class="float"><span class="inner">
+        <span class="face">
+          <span class="pip pip--tl" aria-hidden="true">Q<i>&#9829;</i></span>
+          <svg class="frame" viewBox="0 0 100 120" aria-hidden="true" focusable="false">
+            <rect width="100" height="120" rx="3" style="fill:var(--blush)"/>
+            <rect x="3" y="3" width="94" height="114" rx="2" style="fill:none;stroke:var(--rose-deep);stroke-width:1;stroke-dasharray:1.5 2.5"/>
+            <path d="M11 115 V46 C11 33 22 29 30 25 C38 21 45 14 50 6 C55 14 62 21 70 25 C78 29 89 33 89 46 V115 Z" style="fill:var(--cream)"/>
+            <clipPath id="clip-q"><ellipse cx="50" cy="74" rx="28" ry="36"/></clipPath>
+            <ellipse cx="50" cy="74" rx="28" ry="36" style="fill:var(--sky)"/>
+            <g clip-path="url(#clip-q)"><use href="#fig-ishita" x="14" y="36" width="72" height="90"/></g>
+            <ellipse cx="50" cy="74" rx="28" ry="36" style="fill:none;stroke:var(--gold);stroke-width:1.6"/>
+            <g style="fill:var(--rose-deep)"><circle cx="7" cy="7" r="2"/><circle cx="93" cy="7" r="2"/><circle cx="7" cy="113" r="2"/><circle cx="93" cy="113" r="2"/></g>
+          </svg>
+          <span class="name">Ishita</span>
+          <span class="role">The Bride's Side</span>
+          <span class="pip pip--br" aria-hidden="true">Q<i>&#9829;</i></span>
+        </span>
+        <span class="back" aria-hidden="true">
+          <span class="wordmark"><span class="sher">Sher</span><span class="ish">ish</span></span>
+          <strong>Ishita's side</strong>
+          <small>Shuffling you in…</small>
+        </span>
+      </span></span>
+    </a>
+
+    <a id="enter-shreyam" data-side="shreyam" href="story.html?side=shreyam" class="card" aria-label="Enter Shreyam's side — the groom">
+      <span class="float"><span class="inner">
+        <span class="face">
+          <span class="pip pip--tl" aria-hidden="true">K<i>&#9830;</i></span>
+          <svg class="frame" viewBox="0 0 100 120" aria-hidden="true" focusable="false">
+            <rect width="100" height="120" rx="3" style="fill:var(--gold-lt)"/>
+            <rect x="3" y="3" width="94" height="114" rx="2" style="fill:none;stroke:var(--gold-dk);stroke-width:1;stroke-dasharray:1.5 2.5"/>
+            <path d="M11 115 V46 C11 33 22 29 30 25 C38 21 45 14 50 6 C55 14 62 21 70 25 C78 29 89 33 89 46 V115 Z" style="fill:var(--cream)"/>
+            <clipPath id="clip-k"><ellipse cx="50" cy="74" rx="28" ry="36"/></clipPath>
+            <ellipse cx="50" cy="74" rx="28" ry="36" style="fill:var(--sky)"/>
+            <g clip-path="url(#clip-k)"><use href="#fig-shreyam" x="14" y="36" width="72" height="90"/></g>
+            <ellipse cx="50" cy="74" rx="28" ry="36" style="fill:none;stroke:var(--gold-dk);stroke-width:1.6"/>
+            <g style="fill:var(--gold-dk)"><circle cx="7" cy="7" r="2"/><circle cx="93" cy="7" r="2"/><circle cx="7" cy="113" r="2"/><circle cx="93" cy="113" r="2"/></g>
+          </svg>
+          <span class="name">Shreyam</span>
+          <span class="role">The Groom's Side</span>
+          <span class="pip pip--br" aria-hidden="true">K<i>&#9830;</i></span>
+        </span>
+        <span class="back" aria-hidden="true">
+          <span class="wordmark"><span class="sher">Sher</span><span class="ish">ish</span></span>
+          <strong>Shreyam's side</strong>
+          <small>Shuffling you in…</small>
+        </span>
+      </span></span>
+    </a>
+  </div>
+
+  <p class="hint">Tap a card</p>
+  <p class="foot">With love from both families</p>
+</main>
+
+<script>
+(function(){
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.querySelectorAll('a[data-side]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      if (reduce || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+      e.preventDefault();
+      document.body.classList.add('leaving');
+      a.classList.add('chosen');
+      setTimeout(function(){ window.location.href = a.href; }, 1000);
+    });
+  });
+  window.addEventListener('pageshow', function(){
+    document.body.classList.remove('leaving');
+    document.querySelectorAll('.chosen').forEach(function(el){ el.classList.remove('chosen'); });
+  });
+})();
+</script>
+</body>
+</html>
