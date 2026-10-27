@@ -108,8 +108,9 @@
     var rsvp = $('#rsvpBtn');
     if (S.rsvpWhatsapp) {
       rsvp.href = 'https://wa.me/' + S.rsvpWhatsapp + '?text=' + encodeURIComponent(S.rsvpMessage);
+      rsvp.removeAttribute('hidden');          // reveal only once a real number exists
     } else {
-      rsvp.setAttribute('hidden', '');
+      // button ships hidden in the HTML (so it never flashes on a slow load) — show a note instead
       var note = document.createElement('p');
       note.style.cssText = 'color:rgba(255,255,255,.75);font-size:.8rem;margin:.4em 0 0;letter-spacing:.04em';
       note.textContent = 'RSVP link coming soon — check back shortly 💌';

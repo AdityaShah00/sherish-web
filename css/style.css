@@ -106,15 +106,12 @@ button{font-family:inherit}
    main.js/GSAP to download. The curtain is opaque (so image decode is hidden) and always in motion. */
 html.entering #transition{visibility:visible}
 
+/* translucent vignette — Home shows through the clear centre (the opaque wall looked wrong); it holds
+   while the palki/baraat cross, then lifts. Image loading is solved elsewhere, not by covering it. */
 .veil{position:absolute; inset:0; opacity:0; background:
-  radial-gradient(130% 95% at 50% 46%, #8a2433 0%, #6a1826 46%, #4e121d 100%)}
-/* a warm glow that keeps breathing while the page is still arriving — nothing ever sits frozen */
-.veil::before{content:""; position:absolute; inset:0; opacity:.5;
-  background:radial-gradient(44% 34% at 50% 44%, rgba(228,201,131,.32), rgba(228,201,131,0) 70%)}
-html.entering .veil{animation:veilHold 2.35s linear forwards}
-html.entering .veil::before{animation:glowPulse 1.3s ease-in-out infinite}
-@keyframes veilHold{0%,72%{opacity:1} 100%{opacity:0; visibility:hidden}}
-@keyframes glowPulse{0%,100%{opacity:.34; transform:scale(1)} 50%{opacity:.72; transform:scale(1.07)}}
+  radial-gradient(circle at 50% 40%, rgba(122,31,43,.0), rgba(94,22,34,.96))}
+html.entering .veil{animation:veilHold 2.2s linear forwards}
+@keyframes veilHold{0%,70%{opacity:1} 100%{opacity:0; visibility:hidden}}
 
 .rider{position:absolute; bottom:7vh; left:50%; width:min(88vw,540px); height:auto; opacity:0;
   will-change:transform; filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
@@ -135,7 +132,6 @@ html.entering.side-shreyam #baraat .rider__g{animation:riderBob .62s ease-in-out
 
 /* repeat visit in the same session (e.g. comparing themes): skip the parade, just a quick lift */
 html.entering.seen .veil{animation:veilQuick .55s ease forwards}
-html.entering.seen .veil::before{animation:none; opacity:0}
 html.entering.seen #palki, html.entering.seen #baraat{display:none}
 @keyframes veilQuick{0%{opacity:1} 100%{opacity:0; visibility:hidden}}
 
