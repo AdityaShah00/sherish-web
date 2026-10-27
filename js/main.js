@@ -199,42 +199,58 @@
   function revealChrome() { $('#topbar').classList.add('show'); $('#garland').classList.add('show'); }
 
   function clearEntering() { document.documentElement.classList.remove('entering'); }
-  // Runs on story.html load when the guest arrived from a landing with ?side=. The veil is
-  // already up (html.entering is set pre-paint), so Home never flashes: the chosen vehicle
-  // (palki for the bride's side, baraat for the groom's) crosses, then the veil lifts to Home.
+  // Single cleanup path — used by the timeline's onComplete, the safety timer, and the reduced branch.
+  function endTransition() {
+    var wrap = $('#transition'); if (wrap) wrap.classList.remove('active');
+    if (window.gsap) { try { gsap.set([$('#palki'), $('#baraat'), '.veil'].filter(Boolean), { opacity: 0 }); } catch (e) {} }
+    clearEntering();
+  }
+  // First visit from a landing (?side=): a quick palki (bride) / baraat (groom) crossing, then Home.
+  // The veil is already up (html.entering, set pre-paint), so Home never flashes.
   function playEntrance(side) {
     var wrap = $('#transition');
     setLead(side);
     revealChrome();
-    if (reduce || !window.gsap || !wrap) { clearEntering(); return; }
+    if (reduce || !window.gsap || !wrap) { endTransition(); return; }
     var palki = $('#palki'), baraat = $('#baraat');
     var rider = side === 'shreyam' ? baraat : palki;
-    // hide BOTH first so the non-chosen vehicle never lingers on screen
     gsap.set([palki, baraat], { opacity: 0, x: '-140vw' });
     gsap.set('.veil', { opacity: 1 });
     wrap.classList.add('active');
     var mobile = matchMedia('(max-width:760px)').matches;
-    var half = mobile ? 1.7 : 2.7;   // each leg of the crossing
-    var hold = 0.5;                  // pause in the middle of the screen
-    var tl = gsap.timeline({
-      onComplete: function () { wrap.classList.remove('active'); gsap.set([palki, baraat], { opacity: 0 }); clearEntering(); }
-    });
+    var half = mobile ? 0.7 : 0.95;  // snappy crossing — was ~3x longer and felt non-responsive
+    var hold = 0.25;
+    var tl = gsap.timeline({ onComplete: endTransition });
     if (rider) {
       var w = rider.getBoundingClientRect().width || 600;
       var centerX = (window.innerWidth - w) / 2;
       gsap.set(rider, { x: '-54vw', opacity: 1 });
-      tl.to(rider, { x: centerX, duration: half, ease: 'power2.out' }, 0.25);          // glide to centre
-      tl.to(rider, { x: '124vw', duration: half, ease: 'power2.in' }, 0.25 + half + hold); // hold, then exit
-      tl.to(rider.querySelector('.rider__g'), { y: -14, duration: 0.5, yoyo: true, repeat: Math.round((half * 2 + hold) * 2), ease: 'sine.inOut' }, 0.25);
+      tl.to(rider, { x: centerX, duration: half, ease: 'power2.out' }, 0.12);
+      tl.to(rider, { x: '124vw', duration: half, ease: 'power2.in' }, 0.12 + half + hold);
+      tl.to(rider.querySelector('.rider__g'), { y: -10, duration: 0.4, yoyo: true, repeat: Math.round((half * 2 + hold) * 2.5), ease: 'sine.inOut' }, 0.12);
     }
-    var end = 0.25 + half + hold + half;
-    tl.to('.veil', { opacity: 0, duration: 0.7, ease: 'power2.out' }, Math.max(1.0, end - 0.7));
+    var end = 0.12 + half + hold + half;
+    tl.to('.veil', { opacity: 0, duration: 0.55, ease: 'power2.out' }, Math.max(0.5, end - 0.55));
+    setTimeout(function () { if (document.documentElement.classList.contains('entering')) endTransition(); }, (end + 2) * 1000);
   }
-  // Read the side chosen on the landing page; play the entrance, or just show Home if visited directly.
+  // Re-entry in the same session (e.g. comparing themes): skip the crossing — quick veil wipe to Home.
+  function quickEnter(side) {
+    var wrap = $('#transition');
+    setLead(side);
+    revealChrome();
+    if (reduce || !window.gsap || !wrap) { endTransition(); return; }
+    gsap.set('.veil', { opacity: 1 });
+    wrap.classList.add('active');
+    gsap.to('.veil', { opacity: 0, duration: 0.4, ease: 'power2.out', onComplete: endTransition });
+    setTimeout(function () { if (document.documentElement.classList.contains('entering')) endTransition(); }, 1500);
+  }
+  // Read the side chosen on the landing; animate the crossing the first time, skip it on re-entry.
   function initEntry() {
     var m = /[?&]side=(ishita|shreyam)\b/.exec(location.search);
-    if (m) { playEntrance(m[1]); }
-    else { clearEntering(); revealChrome(); }
+    if (!m) { clearEntering(); revealChrome(); return; }
+    var seen = false; try { seen = sessionStorage.getItem('sherishSeenEntrance') === '1'; } catch (e) {}
+    if (seen) { quickEnter(m[1]); }
+    else { try { sessionStorage.setItem('sherishSeenEntrance', '1'); } catch (e) {} playEntrance(m[1]); }
   }
   function initLanding() {
     $$('.half').forEach(function (h) {

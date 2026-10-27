@@ -11,6 +11,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
+  <link rel="preload" as="image" href="assets/couple.webp">
   <!-- if arriving from a landing with ?side=, cover Home immediately so the entrance has no flash -->
   <script>(function(){try{if(/[?&]side=(ishita|shreyam)\b/.test(location.search))document.documentElement.className+=' entering';}catch(e){}})();</script>
 </head>
@@ -177,7 +178,7 @@
         <h2 class="section-title">A love that crossed continents</h2>
         <div class="miles"><span id="milesNum">0</span><small>miles apart</small></div>
         <div class="worldwrap">
-          <img class="world-sketch" src="assets/world-sketch.webp" alt="A hand-drawn map of the world" width="1400" height="669">
+          <img class="world-sketch" src="assets/world-sketch.webp" alt="A hand-drawn map of the world" width="1400" height="669" loading="lazy">
           <svg class="world-ov" viewBox="0 0 1400 669" id="worldSvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <!-- route arc Luxembourg -> Bengaluru (drawn on scroll) -->
             <path id="routeArc" class="route" d="M702 229 Q858 110 985 391"/>
