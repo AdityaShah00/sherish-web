@@ -594,3 +594,39 @@ body.still .garland__fill{stroke-dashoffset:0 !important}
 @keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
 @keyframes thump{0%{opacity:0;transform:scale(1.8) rotate(10deg)}100%{opacity:.9;transform:scale(1) rotate(-10deg)}}
 @media (max-width:420px){ .landing-stamps .lotus{top:34%;left:-6%} }
+
+/* ============================ landing — mobile: kill horizontal overflow ============================ */
+@media (max-width:760px){
+  /* the postmark (position:absolute, 118% wide) and the corner decos extend past the envelope;
+     clip them at the section so phones never get a sideways scroll ("excess width") — 18:9 & 16:9 alike */
+  .landing-stamps{overflow:hidden}
+  .landing-stamps .stamps{gap:clamp(.6rem,4vw,1.4rem)}
+  .landing-stamps .stamp-link{width:min(40vw,190px)}
+}
+
+/* ============================ landing — desktop: redistribute for 16:9 ============================ */
+/* Wide screens get a two-column "envelope": the letter (address + greeting) on the left, the two
+   postage stamps on the right — so the whole hero fits one 16:9 screen instead of running tall. */
+@media (min-width:960px){
+  .landing-stamps{padding:clamp(1.5rem,5vh,3.5rem) clamp(1.5rem,5vw,4rem)}
+  .landing-stamps .letter{width:min(100%,1060px)}
+  .landing-stamps .content{
+    display:grid; align-items:center; justify-items:center;
+    grid-template-columns:minmax(0,1fr) auto;
+    grid-template-areas:
+      "eyebrow stamps"
+      "address stamps"
+      "greet   stamps"
+      "hint    stamps";
+    column-gap:clamp(2rem,4vw,4rem); row-gap:clamp(.5rem,1.6vh,1.2rem);
+    padding:clamp(2rem,4vh,3rem) clamp(2rem,4vw,3.5rem);
+  }
+  .landing-stamps .eyebrow{grid-area:eyebrow; align-self:end}
+  .landing-stamps .address{grid-area:address; margin-top:0}
+  .landing-stamps .greet{grid-area:greet}
+  .landing-stamps .hint{grid-area:hint; align-self:start}
+  .landing-stamps .stamps{grid-area:stamps; align-self:center; width:auto; flex-wrap:nowrap}
+  /* move the lotus to the lower-left corner of the now-landscape envelope */
+  .landing-stamps .lotus{top:auto; bottom:5%; left:-2.5%}
+  .landing-stamps .paisley{bottom:-2%}
+}
