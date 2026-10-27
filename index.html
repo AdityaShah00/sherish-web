@@ -13,14 +13,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Tiro+Devanagari+Hindi&text=%E0%A4%A6%E0%A5%81%E0%A4%B2%E0%A5%8D%E0%A4%B9%E0%A4%A8%E0%A4%A6%E0%A5%82%E0%A4%B2%E0%A5%8D%E0%A4%B9%E0%A4%BE&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
   <link rel="preload" as="image" href="assets/couple.webp" fetchpriority="high">
-  <!-- warm the below-fold scroll-path images during idle so they're cached before you scroll to them
-       (hides the slow GitHub-Pages first-byte latency); the heavy outfit guides stay deferred -->
-  <link rel="prefetch" as="image" href="assets/world-sketch.webp">
-  <link rel="prefetch" as="image" href="assets/venue-courtyard.webp">
-  <link rel="prefetch" as="image" href="assets/venue-night.webp">
-  <link rel="prefetch" as="image" href="assets/venue-lawn.webp">
-  <link rel="prefetch" as="image" href="assets/venue-ballroom.webp">
-  <link rel="prefetch" as="image" href="assets/crest.webp">
   <!-- Arriving from a landing (?side=): set html.entering BEFORE first paint so the whole entrance
        (translucent veil + palki/baraat parade + lift) runs in pure CSS and starts the instant the page
        paints — it never waits for main.js/GSAP to download, so nothing ever sits frozen. -->
@@ -350,7 +342,7 @@
         <h2 class="section-title">A love that crossed continents</h2>
         <div class="miles"><span id="milesNum">0</span><small>miles apart</small></div>
         <div class="worldwrap">
-          <img class="world-sketch" src="assets/world-sketch.webp" alt="A hand-drawn map of the world" width="1400" height="669" loading="lazy">
+          <img class="world-sketch" src="assets/world-sketch.webp" alt="A hand-drawn map of the world" width="1400" height="669">
           <svg class="world-ov" viewBox="0 0 1400 669" id="worldSvg" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
             <!-- route arc Luxembourg -> Bengaluru (drawn on scroll) -->
             <path id="routeArc" class="route" d="M702 229 Q858 110 985 391"/>
@@ -377,16 +369,16 @@
       <div class="venue__sticky">
         <div class="venue__frames" id="venueFrames">
           <figure class="vframe is-active" data-label="Chauras Bagh" data-sub="The Sacred Vows">
-            <img src="assets/venue-courtyard.webp" alt="Central courtyard of Hyatt Regency Jaipur Mansarovar" loading="lazy">
+            <img src="assets/venue-courtyard.webp" alt="Central courtyard of Hyatt Regency Jaipur Mansarovar">
           </figure>
           <figure class="vframe" data-label="Chauras Bagh" data-sub="The wedding, by night">
-            <img src="assets/venue-night.webp" alt="The courtyard lit for an evening celebration" loading="lazy">
+            <img src="assets/venue-night.webp" alt="The courtyard lit for an evening celebration">
           </figure>
           <figure class="vframe" data-label="Navras Bagh" data-sub="Haldi &amp; Phoolon Ki Holi">
-            <img src="assets/venue-lawn.webp" alt="The garden lawn with chhatri pavilions" loading="lazy">
+            <img src="assets/venue-lawn.webp" alt="The garden lawn with chhatri pavilions">
           </figure>
           <figure class="vframe" data-label="Regency Ballroom" data-sub="Sangeet">
-            <img src="assets/venue-ballroom.webp" alt="The indoor ballroom" loading="lazy">
+            <img src="assets/venue-ballroom.webp" alt="The indoor ballroom">
           </figure>
           <div class="venue__scrim"></div>
         </div>
@@ -407,7 +399,7 @@
     <!-- ================= EVENTS + OUTFITS ================= -->
     <section id="events" class="events reveal">
       <div class="events__head">
-        <img class="crest-motif" src="assets/crest.webp" alt="Ishita &amp; Shreyam wedding crest" loading="lazy">
+        <img class="crest-motif" src="assets/crest.webp" alt="Ishita &amp; Shreyam wedding crest">
         <span class="eyebrow center">the celebrations</span>
         <h2 class="section-title">Two Days of Togetherness</h2>
       </div>

@@ -76,7 +76,7 @@
         '</div>' +
         '<div class="event__media">' +
           '<div class="event__dress">' + e.dress + '</div>' +
-          '<img src="assets/' + e.outfit + '" alt="Outfit suggestions for ' + e.name + '" loading="lazy"></div>';
+          '<img src="assets/' + e.outfit + '" alt="Outfit suggestions for ' + e.name + '"></div>';
       tl.appendChild(el);
     });
   }
