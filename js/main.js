@@ -448,6 +448,66 @@
     } else { btn.classList.add('show'); }
   }
 
+  /* ------------------------------------------------ live weather (travel) */
+  // Jaipur forecast for the wedding dates. Open-Meteo (free, no key, CORS). The dates are far out,
+  // so until they fall inside the ~15-day forecast window we show the average of recent years.
+  function initWeather() {
+    var box = $('#wxForecast'); if (!box || !window.fetch) return;
+    var lat = 26.9124, lon = 75.7873, labels = ['23 Feb', '24 Feb', '25 Feb'];
+    var start = '2027-02-23', end = '2027-02-25';
+    var toGo = (new Date(start + 'T00:00:00+05:30') - Date.now()) / 86400000;
+    var live = (toGo <= 15 && toGo >= -4);
+    function icon(c){ c = +c;
+      if (c === 0) return '☀️'; if (c <= 2) return '🌤️'; if (c === 3) return '☁️';
+      if (c === 45 || c === 48) return '🌫️'; if (c >= 51 && c <= 67) return '🌧️';
+      if (c >= 71 && c <= 77) return '❄️'; if (c >= 80 && c <= 82) return '🌦️';
+      if (c >= 95) return '⛈️'; return '🌤️'; }
+    function render(mx, mn, wc, note){
+      var h = '';
+      for (var i = 0; i < 3; i++) {
+        h += '<div class="wx__day"><span class="wx__d">' + labels[i] + '</span><span class="wx__i">' + icon(wc[i]) +
+             '</span><span class="wx__t"><b>' + (mx[i] != null ? Math.round(mx[i]) + '°' : '–') + '</b> ' +
+             (mn[i] != null ? Math.round(mn[i]) + '°' : '') + '</span></div>';
+      }
+      box.innerHTML = h + '<span class="wx__note">' + note + ' · Jaipur</span>';
+    }
+    function fail(){ box.innerHTML = '<p class="wx__msg">Forecast unavailable</p>'; }
+    if (live) {
+      fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
+            '&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FKolkata&start_date=' + start + '&end_date=' + end)
+        .then(function(r){ return r.json(); })
+        .then(function(j){ var d = j && j.daily; if (!d || !d.time) return fail(); render(d.temperature_2m_max, d.temperature_2m_min, d.weather_code, 'forecast'); })
+        .catch(fail);
+      return;
+    }
+    var years = [2024, 2023, 2022, 2021];
+    Promise.all(years.map(function(y){
+      return fetch('https://archive-api.open-meteo.com/v1/archive?latitude=' + lat + '&longitude=' + lon +
+                   '&start_date=' + y + '-02-23&end_date=' + y + '-02-25&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FKolkata')
+        .then(function(r){ return r.json(); }).catch(function(){ return null; });
+    })).then(function(res){
+      var mxA = [[],[],[]], mnA = [[],[],[]], wcA = [[],[],[]];
+      res.forEach(function(j){ if (j && j.daily && j.daily.time) { for (var i = 0; i < 3; i++) {
+        var a = j.daily.temperature_2m_max[i], b = j.daily.temperature_2m_min[i], c = j.daily.weather_code[i];
+        if (a != null) mxA[i].push(a); if (b != null) mnA[i].push(b); if (c != null) wcA[i].push(c);
+      } } });
+      function avg(a){ return a.length ? a.reduce(function(s, x){ return s + x; }, 0) / a.length : null; }
+      function mode(a){ if (!a.length) return 0; var m = {}, best = a[0], bc = 0;
+        a.forEach(function(x){ m[x] = (m[x] || 0) + 1; if (m[x] > bc) { bc = m[x]; best = x; } }); return +best; }
+      if (!mxA[0].length) return fail();
+      render(mxA.map(avg), mnA.map(avg), wcA.map(mode), 'recent-year average');
+    }).catch(fail);
+  }
+
+  /* --------------------------------------- geo-gate "Explore India" (hidden in IN) */
+  // Shown by default; hidden only when the visitor's IP geolocates to India. Any failure keeps it shown.
+  function initGeoGate() {
+    var el = $('#exploreIndia'); if (!el || !window.fetch) return;
+    fetch('https://ipapi.co/country/').then(function(r){ return r.text(); }).then(function(cc){
+      if ((cc || '').trim().toUpperCase() === 'IN') el.hidden = true;
+    }).catch(function(){});
+  }
+
   /* ---------------------------------------------------------------- boot */
   fillContent();
   applyNameOrder();
@@ -459,4 +519,6 @@
   initWardrobe();
   ambientPetals();
   initEntry();
+  initWeather();
+  initGeoGate();
 })();

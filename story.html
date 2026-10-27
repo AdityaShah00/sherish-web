@@ -257,19 +257,14 @@
             <p>Two quick online forms before you land:<br>• <a href="https://indianvisaonline.gov.in/earrival/" target="_blank" rel="noopener">e-Arrival form</a> — anytime after your visa.<br>• <a href="https://airsuvidha.civilaviation.gov.in/" target="_blank" rel="noopener">Air Suvidha</a> — within 72 hrs of arrival.</p>
           </article>
           <article class="tcard">
-            <div class="tcard__ico">✈️</div>
-            <h3>Getting Here</h3>
-            <p>Fly to <b>Jaipur</b> via <b>Delhi</b> or <b>Mumbai</b> — carriers like Lufthansa, Swiss, Air India, KLM, Air France, Turkish or LOT connect there. Book <b>3–4 months ahead</b> for the best fares, and try to coordinate within your group. No easy Jaipur connection? Fly into <b>Delhi</b> and we'll arrange a car (~4 hrs). Transfers from Jaipur airport to the hotel are already arranged.</p>
-          </article>
-          <article class="tcard">
             <div class="tcard__ico">🏨</div>
             <h3>Where to Stay</h3>
             <p>Your stay is taken care of from <b>23 Feb (check-in)</b> to <b>25 Feb (check-out)</b>. Planning to extend your trip? Jaipur has wonderful hotels — just ask us for recommendations.</p>
           </article>
-          <article class="tcard">
+          <article class="tcard tcard--wx">
             <div class="tcard__ico">🌤️</div>
-            <h3>Weather &amp; Packing</h3>
-            <p>Late February–March in Jaipur is lovely — pleasant days and cool evenings, well suited to international travellers. Pack light layers, plus your ethnic best for each function.</p>
+            <h3>Weather</h3>
+            <div class="wx" id="wxForecast" aria-live="polite"><p class="wx__msg">Loading forecast…</p></div>
           </article>
           <article class="tcard">
             <div class="tcard__ico">💬</div>
@@ -278,24 +273,27 @@
           </article>
         </div>
 
-        <h3 class="travel__subhead">Explore India</h3>
-        <p class="travel__intro">Many of you are travelling a long way — and February–March is a lovely time to see more of India. A few ideas to begin:</p>
-        <div class="travel__grid">
-          <article class="tcard">
-            <div class="tcard__ico">🔺</div>
-            <h3>The Golden Triangle</h3>
-            <p>India's classic circuit — <b>Delhi</b> (Mughal forts &amp; bazaars), <b>Agra</b> (the Taj Mahal), and <b>Jaipur</b> (the Pink City; 2 days recommended): the best of the country's history and colour in a few days.</p>
-          </article>
-          <article class="tcard">
-            <div class="tcard__ico">🏛️</div>
-            <h3>Delhi</h3>
-            <p>Old meets new — the <b>Red Fort</b>, <b>Qutub Minar</b>, <b>Humayun's Tomb</b>, <b>India Gate</b>, and the bustle of <b>Chandni Chowk &amp; Jama Masjid</b> (best explored by rickshaw).</p>
-          </article>
-          <article class="tcard">
-            <div class="tcard__ico">🌊</div>
-            <h3>Mumbai</h3>
-            <p>Seaside energy — the <b>Gateway of India</b> &amp; Colaba, <b>Marine Drive</b> at sunset, the <b>Elephanta Caves</b>, <b>CST</b> station, and the cafés of <b>Bandra &amp; Juhu</b>.</p>
-          </article>
+        <!-- shown by default; hidden for visitors geolocated to India (see initGeoGate in main.js) -->
+        <div id="exploreIndia" class="explore">
+          <h3 class="travel__subhead">Explore India</h3>
+          <p class="travel__intro">Many of you are travelling a long way — and February–March is a lovely time to see more of India. A few ideas to begin:</p>
+          <div class="travel__grid">
+            <article class="tcard">
+              <div class="tcard__ico">🔺</div>
+              <h3>The Golden Triangle</h3>
+              <p>India's classic circuit — <b>Delhi</b> (Mughal forts &amp; bazaars), <b>Agra</b> (the Taj Mahal), and <b>Jaipur</b> (the Pink City; 2 days recommended): the best of the country's history and colour in a few days.</p>
+            </article>
+            <article class="tcard">
+              <div class="tcard__ico">🏛️</div>
+              <h3>Delhi</h3>
+              <p>Old meets new — the <b>Red Fort</b>, <b>Qutub Minar</b>, <b>Humayun's Tomb</b>, <b>India Gate</b>, and the bustle of <b>Chandni Chowk &amp; Jama Masjid</b> (best explored by rickshaw).</p>
+            </article>
+            <article class="tcard">
+              <div class="tcard__ico">🌊</div>
+              <h3>Mumbai</h3>
+              <p>Seaside energy — the <b>Gateway of India</b> &amp; Colaba, <b>Marine Drive</b> at sunset, the <b>Elephanta Caves</b>, <b>CST</b> station, and the cafés of <b>Bandra &amp; Juhu</b>.</p>
+            </article>
+          </div>
         </div>
       </div>
     </section>

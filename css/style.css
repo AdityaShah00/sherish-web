@@ -376,6 +376,17 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .travel__subhead{text-align:center; font-family:var(--f-serif); color:var(--maroon); font-weight:500;
   font-size:clamp(1.6rem,4vw,2.4rem); margin:8vh 0 .15em}
 .travel__intro{text-align:center; color:var(--ink-soft); max-width:640px; margin:0 auto 1em; font-size:.98rem}
+/* live weather forecast — replaces the old Weather & Packing copy */
+.wx{display:flex; flex-wrap:wrap; gap:10px; margin-top:.2em}
+.wx__day{flex:1 1 0; min-width:62px; display:flex; flex-direction:column; align-items:center; gap:3px;
+  padding:10px 6px; border:1px solid var(--gold-lt); border-radius:14px; background:rgba(255,255,255,.55)}
+.wx__d{font-size:.6rem; letter-spacing:.1em; text-transform:uppercase; color:var(--maroon); font-weight:500}
+.wx__i{font-size:1.6rem; line-height:1}
+.wx__t{font-size:.86rem; color:var(--ink-soft)}
+.wx__t b{color:var(--maroon); font-size:1rem}
+.wx__note{flex-basis:100%; text-align:center; font-size:.56rem; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--gold-dk); opacity:.72; margin-top:.3em}
+.wx__msg{font-size:.9rem; color:var(--ink-soft); opacity:.7; margin:0}
 
 /* ============================ outfit lightbox (mobile only) ============================ */
 .event__view{display:none}
