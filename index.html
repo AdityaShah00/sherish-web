@@ -119,6 +119,12 @@ h1 .amp{font-family:'Great Vibes',cursive;font-weight:400;color:var(--gold-dk);p
 .stamp-link.chosen .postmark{opacity:.9;transform:scale(1) rotate(-10deg);animation:thump .45s cubic-bezier(.3,1.6,.5,1) both}
 .stamp-link.chosen .lift{transform:rotate(0) translateY(-10px) scale(1.06)}
 body.leaving .stamp-link:not(.chosen){opacity:0;transform:translateY(24px) scale(.94)}
+/* hand-off curtain: climbs up to meet story.html's maroon veil, so the jump between the two pages
+   reads as one continuous motion instead of a blank flash */
+.handoff{position:fixed;inset:0;z-index:9999;pointer-events:none;transform:translateY(101%);
+  background:radial-gradient(130% 95% at 50% 120%,#8a2433 0%,#6a1826 46%,#4e121d 100%)}
+body.leaving .handoff{animation:handoffUp .5s cubic-bezier(.4,0,.25,1) forwards}
+@keyframes handoffUp{to{transform:translateY(0)}}
 
 .hint{display:flex;align-items:center;gap:.7em;font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-lt)}
 .hint::before,.hint::after{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
@@ -315,7 +321,7 @@ body.leaving .stamp-link:not(.chosen){opacity:0;transform:translateY(24px) scale
       e.preventDefault();
       document.body.classList.add('leaving');
       a.classList.add('chosen');
-      setTimeout(function(){ window.location.href = a.href; }, 200);
+      setTimeout(function(){ window.location.href = a.href; }, 460);
     });
   });
   window.addEventListener('pageshow', function(){
@@ -324,5 +330,6 @@ body.leaving .stamp-link:not(.chosen){opacity:0;transform:translateY(24px) scale
   });
 })();
 </script>
+<div class="handoff" aria-hidden="true"></div>
 </body>
 </html>

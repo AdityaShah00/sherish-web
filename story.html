@@ -11,9 +11,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Great+Vibes&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
-  <link rel="preload" as="image" href="assets/couple.webp">
-  <!-- if arriving from a landing with ?side=, cover Home immediately so the entrance has no flash -->
-  <script>(function(){try{if(/[?&]side=(ishita|shreyam)\b/.test(location.search))document.documentElement.className+=' entering';}catch(e){}})();</script>
+  <link rel="preload" as="image" href="assets/couple.webp" fetchpriority="high">
+  <!-- Arriving from a landing (?side=): set html.entering BEFORE first paint so the whole entrance
+       (opaque curtain + palki/baraat parade + lift) runs in pure CSS and starts the instant the page
+       paints — it never waits for main.js/GSAP to download, so nothing ever sits frozen. -->
+  <script>(function(){try{
+    var m=/[?&]side=(ishita|shreyam)\b/.exec(location.search); if(!m)return;
+    var c=' entering side-'+m[1], seen=false;
+    try{seen=sessionStorage.getItem('sherishSeenEntrance')==='1';}catch(e){}
+    if(seen){c+=' seen';}else{try{sessionStorage.setItem('sherishSeenEntrance','1');}catch(e){}}
+    document.documentElement.className+=c;
+  }catch(e){}})();</script>
 </head>
 <body class="preload">
 

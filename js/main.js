@@ -199,58 +199,22 @@
   function revealChrome() { $('#topbar').classList.add('show'); $('#garland').classList.add('show'); }
 
   function clearEntering() { document.documentElement.classList.remove('entering'); }
-  // Single cleanup path — used by the timeline's onComplete, the safety timer, and the reduced branch.
-  function endTransition() {
-    var wrap = $('#transition'); if (wrap) wrap.classList.remove('active');
-    if (window.gsap) { try { gsap.set([$('#palki'), $('#baraat'), '.veil'].filter(Boolean), { opacity: 0 }); } catch (e) {} }
-    clearEntering();
-  }
-  // First visit from a landing (?side=): a quick palki (bride) / baraat (groom) crossing, then Home.
-  // The veil is already up (html.entering, set pre-paint), so Home never flashes.
-  function playEntrance(side) {
-    var wrap = $('#transition');
-    setLead(side);
-    revealChrome();
-    if (reduce || !window.gsap || !wrap) { endTransition(); return; }
-    var palki = $('#palki'), baraat = $('#baraat');
-    var rider = side === 'shreyam' ? baraat : palki;
-    gsap.set([palki, baraat], { opacity: 0, x: '-140vw' });
-    gsap.set('.veil', { opacity: 1 });
-    wrap.classList.add('active');
-    var tl = gsap.timeline({ onComplete: endTransition });
-    if (rider) {
-      var w = rider.getBoundingClientRect().width || 600;
-      var centerX = (window.innerWidth - w) / 2;
-      gsap.set(rider, { x: '-60vw', opacity: 1 });
-      tl.to(rider, { x: centerX, duration: 0.4, ease: 'power2.out' }, 0);        // zip in
-      tl.to(rider, { x: '130vw', duration: 0.45, ease: 'power2.in' }, 0.45);     // zip out
-    }
-    tl.to('.veil', { opacity: 0, duration: 0.4, ease: 'power2.out' }, 0.3);      // Home interactive ~0.7s
-    setTimeout(function () { if (document.documentElement.classList.contains('entering')) endTransition(); }, 2500);
-  }
-  // Re-entry in the same session (e.g. comparing themes): skip the crossing — quick veil wipe to Home.
-  function quickEnter(side) {
-    var wrap = $('#transition');
-    setLead(side);
-    revealChrome();
-    if (reduce || !window.gsap || !wrap) { endTransition(); return; }
-    gsap.set('.veil', { opacity: 1 });
-    wrap.classList.add('active');
-    gsap.to('.veil', { opacity: 0, duration: 0.4, ease: 'power2.out', onComplete: endTransition });
-    setTimeout(function () { if (document.documentElement.classList.contains('entering')) endTransition(); }, 1500);
-  }
-  // Read the side chosen on the landing; animate the crossing the first time, skip it on re-entry.
+  // The entrance — opaque curtain, palki (bride) / baraat (groom) parade, and the lift — is 100% CSS,
+  // started before first paint via html.entering + side-/seen- classes (see the <head> script). That
+  // means it keeps moving the moment the page paints and never waits for this script to download.
+  // JS only sets the name order, reveals the chrome, and clears the class once the CSS has finished
+  // so the overlay fully releases. The pre-paint script already recorded the repeat-visit flag.
   function initEntry() {
+    var root = document.documentElement;
     var m = /[?&]side=(ishita|shreyam)\b/.exec(location.search);
     if (!m) { clearEntering(); revealChrome(); return; }
-    var seen = false; try { seen = sessionStorage.getItem('sherishSeenEntrance') === '1'; } catch (e) {}
-    if (seen) { quickEnter(m[1]); }
-    else { try { sessionStorage.setItem('sherishSeenEntrance', '1'); } catch (e) {} playEntrance(m[1]); }
+    setLead(m[1]);
+    revealChrome();
+    var dur = root.classList.contains('seen') ? 800 : 2500;   // match the CSS entrance length
+    if (reduce) dur = 60;
+    setTimeout(clearEntering, dur);
   }
   function initLanding() {
-    $$('.half').forEach(function (h) {
-      h.addEventListener('click', function () { playEntrance(h.getAttribute('data-side')); });
-    });
     // chrome appears once past the landing regardless of how they got there
     if (window.ScrollTrigger) {
       ScrollTrigger.create({ trigger: '#home', start: 'top 70%', onEnter: revealChrome, onLeaveBack: function () { $('#topbar').classList.remove('show'); $('#garland').classList.remove('show'); } });
@@ -462,55 +426,22 @@
   /* ------------------------------------------------ live weather (travel) */
   // Jaipur forecast for the wedding dates. Open-Meteo (free, no key, CORS). The dates are far out,
   // so until they fall inside the ~15-day forecast window we show the average of recent years.
+  // Late-February weather in Jaipur is a fixed historical average (recent-year mean) — it will not
+  // change, so there is nothing to fetch. Render it straight from these constants.
   function initWeather() {
-    var box = $('#wxForecast'); if (!box || !window.fetch) return;
-    var lat = 26.9124, lon = 75.7873, labels = ['23 Feb', '24 Feb', '25 Feb'];
-    var start = '2027-02-23', end = '2027-02-25';
-    var toGo = (new Date(start + 'T00:00:00+05:30') - Date.now()) / 86400000;
-    var live = (toGo <= 15 && toGo >= -4);
-    var CK = 'sherishWx';
-    if (!live) { try { var _c = JSON.parse(localStorage.getItem(CK) || 'null'); if (_c && _c.h && (Date.now() - _c.t) < 6048e5) { box.innerHTML = _c.h; return; } } catch (e) {} }
-    function icon(c){ c = +c;
-      if (c === 0) return '☀️'; if (c <= 2) return '🌤️'; if (c === 3) return '☁️';
-      if (c === 45 || c === 48) return '🌫️'; if (c >= 51 && c <= 67) return '🌧️';
-      if (c >= 71 && c <= 77) return '❄️'; if (c >= 80 && c <= 82) return '🌦️';
-      if (c >= 95) return '⛈️'; return '🌤️'; }
-    function render(mx, mn, wc, note){
-      var h = '';
-      for (var i = 0; i < 3; i++) {
-        h += '<div class="wx__day"><span class="wx__d">' + labels[i] + '</span><span class="wx__i">' + icon(wc[i]) +
-             '</span><span class="wx__t"><b>' + (mx[i] != null ? Math.round(mx[i]) + '°' : '–') + '</b> ' +
-             (mn[i] != null ? Math.round(mn[i]) + '°' : '') + '</span></div>';
-      }
-      box.innerHTML = h + '<span class="wx__note">' + note + ' · Jaipur</span>';
-      try { localStorage.setItem(CK, JSON.stringify({ t: Date.now(), h: box.innerHTML })); } catch (e) {}
+    var box = $('#wxForecast'); if (!box) return;
+    var days = [
+      { d: '23 Feb', i: '☁️', hi: 29, lo: 15 },
+      { d: '24 Feb', i: '☁️', hi: 28, lo: 15 },
+      { d: '25 Feb', i: '☀️', hi: 28, lo: 15 }
+    ];
+    var h = '';
+    for (var i = 0; i < days.length; i++) {
+      h += '<div class="wx__day"><span class="wx__d">' + days[i].d + '</span>' +
+           '<span class="wx__i">' + days[i].i + '</span>' +
+           '<span class="wx__t"><b>' + days[i].hi + '°</b> ' + days[i].lo + '°</span></div>';
     }
-    function fail(){ box.innerHTML = '<p class="wx__msg">Forecast unavailable</p>'; }
-    if (live) {
-      fetch('https://api.open-meteo.com/v1/forecast?latitude=' + lat + '&longitude=' + lon +
-            '&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FKolkata&start_date=' + start + '&end_date=' + end)
-        .then(function(r){ return r.json(); })
-        .then(function(j){ var d = j && j.daily; if (!d || !d.time) return fail(); render(d.temperature_2m_max, d.temperature_2m_min, d.weather_code, 'forecast'); })
-        .catch(fail);
-      return;
-    }
-    var years = [2024, 2023, 2022, 2021];
-    Promise.all(years.map(function(y){
-      return fetch('https://archive-api.open-meteo.com/v1/archive?latitude=' + lat + '&longitude=' + lon +
-                   '&start_date=' + y + '-02-23&end_date=' + y + '-02-25&daily=temperature_2m_max,temperature_2m_min,weather_code&timezone=Asia%2FKolkata')
-        .then(function(r){ return r.json(); }).catch(function(){ return null; });
-    })).then(function(res){
-      var mxA = [[],[],[]], mnA = [[],[],[]], wcA = [[],[],[]];
-      res.forEach(function(j){ if (j && j.daily && j.daily.time) { for (var i = 0; i < 3; i++) {
-        var a = j.daily.temperature_2m_max[i], b = j.daily.temperature_2m_min[i], c = j.daily.weather_code[i];
-        if (a != null) mxA[i].push(a); if (b != null) mnA[i].push(b); if (c != null) wcA[i].push(c);
-      } } });
-      function avg(a){ return a.length ? a.reduce(function(s, x){ return s + x; }, 0) / a.length : null; }
-      function mode(a){ if (!a.length) return 0; var m = {}, best = a[0], bc = 0;
-        a.forEach(function(x){ m[x] = (m[x] || 0) + 1; if (m[x] > bc) { bc = m[x]; best = x; } }); return +best; }
-      if (!mxA[0].length) return fail();
-      render(mxA.map(avg), mnA.map(avg), wcA.map(mode), 'recent-year average');
-    }).catch(fail);
+    box.innerHTML = h + '<span class="wx__note">recent-year average · Jaipur</span>';
   }
 
   /* --------------------------------------- geo-gate "Explore India" (hidden in IN) */

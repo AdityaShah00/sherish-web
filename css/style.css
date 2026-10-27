@@ -101,14 +101,44 @@ button{font-family:inherit}
 
 /* ============================ entrance transition ============================ */
 #transition{position:fixed; inset:0; z-index:80; pointer-events:none; visibility:hidden}
-#transition.active{visibility:visible}
-/* arriving from a landing (?side=): cover the screen before first paint so Home never flashes */
+/* Arriving from a landing (?side=): html.entering is set in <head> before first paint, so every part
+   of this entrance is CSS-driven and begins the instant the page paints — it never waits for
+   main.js/GSAP to download. The curtain is opaque (so image decode is hidden) and always in motion. */
 html.entering #transition{visibility:visible}
-html.entering .veil{opacity:1}
-.veil{position:absolute; inset:0; background:
-  radial-gradient(circle at 50% 40%, rgba(122,31,43,.0), rgba(94,22,34,.96));
-  opacity:0}
-.rider{position:absolute; bottom:1vh; left:0; width:min(90vw,560px); height:auto; opacity:0; will-change:transform}
+
+.veil{position:absolute; inset:0; opacity:0; background:
+  radial-gradient(130% 95% at 50% 46%, #8a2433 0%, #6a1826 46%, #4e121d 100%)}
+/* a warm glow that keeps breathing while the page is still arriving — nothing ever sits frozen */
+.veil::before{content:""; position:absolute; inset:0; opacity:.5;
+  background:radial-gradient(44% 34% at 50% 44%, rgba(228,201,131,.32), rgba(228,201,131,0) 70%)}
+html.entering .veil{animation:veilHold 2.35s linear forwards}
+html.entering .veil::before{animation:glowPulse 1.3s ease-in-out infinite}
+@keyframes veilHold{0%,72%{opacity:1} 100%{opacity:0; visibility:hidden}}
+@keyframes glowPulse{0%,100%{opacity:.34; transform:scale(1)} 50%{opacity:.72; transform:scale(1.07)}}
+
+.rider{position:absolute; bottom:7vh; left:50%; width:min(88vw,540px); height:auto; opacity:0;
+  will-change:transform; filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
+/* only the side you chose parades across — a slow, legible stroll (centred via calc), not a zip */
+html.entering.side-ishita #palki,
+html.entering.side-shreyam #baraat{opacity:1; animation:riderCross 2.05s linear forwards}
+html.entering.side-ishita #palki .rider__g,
+html.entering.side-shreyam #baraat .rider__g{animation:riderBob .62s ease-in-out infinite}
+@keyframes riderCross{
+  0%{transform:translateX(calc(-50% - 110vw))}
+  26%{transform:translateX(calc(-50% - 30vw))}
+  40%{transform:translateX(calc(-50% - 9vw))}
+  60%{transform:translateX(calc(-50% + 9vw))}
+  74%{transform:translateX(calc(-50% + 30vw))}
+  100%{transform:translateX(calc(-50% + 110vw))}
+}
+@keyframes riderBob{50%{transform:translateY(-6px)}}
+
+/* repeat visit in the same session (e.g. comparing themes): skip the parade, just a quick lift */
+html.entering.seen .veil{animation:veilQuick .55s ease forwards}
+html.entering.seen .veil::before{animation:none; opacity:0}
+html.entering.seen #palki, html.entering.seen #baraat{display:none}
+@keyframes veilQuick{0%{opacity:1} 100%{opacity:0; visibility:hidden}}
+
 .rider .ln{stroke:rgba(255,255,255,.25); stroke-width:2}
 .rider .ln2{stroke:var(--gold-lt); stroke-width:1.5}
 .fillGold{fill:var(--gold-lt)} .fillMaroon{fill:#8d2733}
@@ -466,4 +496,7 @@ body.still .garland__fill{stroke-dashoffset:0 !important}
   .half__img img{opacity:1 !important; filter:none !important; clip-path:none !important}
   .js .anim{opacity:1 !important; transform:none !important}
   .garland__fill{stroke-dashoffset:0 !important}
+  /* entrance: no curtain, no parade — reveal Home at once */
+  html.entering .veil, html.entering.seen .veil{opacity:0 !important; visibility:hidden !important; animation:none !important}
+  html.entering #palki, html.entering #baraat{display:none !important}
 }
