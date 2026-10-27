@@ -496,3 +496,94 @@ body.still .garland__fill{stroke-dashoffset:0 !important}
   html.entering .veil, html.entering.seen .veil{opacity:0 !important; visibility:hidden !important; animation:none !important}
   html.entering #palki, html.entering #baraat{display:none !important}
 }
+
+/* ============================ STAMPS LANDING (in-page section 0) ============================ */
+/* Ported from the old standalone index.html and scoped under .landing-stamps so none of its generic
+   class names (.eyebrow, .wordmark, .name, …) collide with the experience's styles. The landing's
+   own --shadow (a colour) is renamed --stamp-shadow to avoid clashing with the site's box-shadow. */
+.landing-stamps{
+  --her-bg:linear-gradient(165deg,#f7dad7 0%,#efc7c1 55%,#e6b2aa 100%);
+  --his-bg:linear-gradient(165deg,#f7ead0 0%,#eed8a8 55%,#e5cd97 100%);
+  --skin:#E2B08A; --clay:#A4492F; --clay-dk:#86381F; --clay-lt:#BA5E3F;
+  --paper:#EFE6D4; --elephant:#8F9A9E; --stamp-shadow:rgba(74,52,38,.28);
+  --m-on:#000; --m-off:#0000;
+  position:relative; min-height:100svh; display:flex; align-items:center; justify-content:center;
+  padding:clamp(2.5rem,7vw,4.5rem) .75rem; background:var(--paper);
+}
+.landing-stamps .letter{position:relative;width:min(100%,720px)}
+.landing-stamps .envelope{position:absolute;inset:0;filter:drop-shadow(0 24px 30px var(--stamp-shadow))}
+.landing-stamps .envelope::before{
+  content:"";position:absolute;inset:0;--r:9px;
+  background:
+    radial-gradient(circle at 18% 12%,var(--clay-lt) 0,transparent 45%),
+    radial-gradient(circle at 88% 92%,var(--clay-dk) 0,transparent 50%),
+    var(--clay);
+  -webkit-mask:
+    radial-gradient(var(--r),var(--m-off) 98%,var(--m-on)) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(var(--m-on) 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+          mask:
+    radial-gradient(var(--r),var(--m-off) 98%,var(--m-on)) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(var(--m-on) 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+}
+.landing-stamps .content{position:relative;z-index:1;padding:clamp(1.6rem,5vw,2.8rem) clamp(1.1rem,4vw,2.6rem) clamp(1.6rem,5vw,2.4rem);
+  display:flex;flex-direction:column;align-items:center;gap:clamp(1rem,3vw,1.6rem);color:var(--cream)}
+.landing-stamps .eyebrow{font-family:var(--f-sans);font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;font-weight:500;text-align:center;color:var(--cream)}
+.landing-stamps .address{
+  position:relative;width:100%;max-width:460px;margin-top:clamp(2.2rem,6vw,3rem);
+  background:var(--cream);color:var(--ink);text-align:center;border-radius:4px;
+  padding:1.3rem 1rem 1.1rem;box-shadow:0 10px 24px -14px var(--stamp-shadow);
+}
+.landing-stamps .address::before{content:"";position:absolute;inset:6px;border:1px dashed var(--gold);border-radius:2px;pointer-events:none}
+.landing-stamps .elephant{position:absolute;width:clamp(86px,22vw,128px);right:12%;top:0;transform:translateY(-82%);animation:amble 3.2s ease-in-out infinite}
+.landing-stamps .address .to{font-size:.62rem;letter-spacing:.28em;text-transform:uppercase;color:var(--maroon);font-weight:500}
+.landing-stamps h1{font-family:var(--f-serif);font-weight:500;font-size:clamp(1.85rem,7vw,2.7rem);line-height:1.05;margin-top:.3rem}
+.landing-stamps h1 .amp{font-family:var(--f-script);font-weight:400;color:var(--gold-dk);padding:0 .08em}
+.landing-stamps .wordmark{font-family:var(--f-script);font-size:clamp(1.5rem,5.6vw,2.1rem);line-height:1.15}
+.landing-stamps .sher{color:var(--gold-dk)} .landing-stamps .ish{color:var(--rose-deep)}
+.landing-stamps .date{font-size:.66rem;letter-spacing:.24em;text-transform:uppercase;margin-top:.15rem}
+.landing-stamps .greet{font-family:var(--f-serif);font-style:italic;font-size:clamp(1.08rem,3.8vw,1.4rem);line-height:1.35;text-align:center;max-width:32ch;color:var(--cream)}
+.landing-stamps .stamps{display:flex;justify-content:center;align-items:flex-start;gap:clamp(.9rem,5vw,3rem);width:100%;padding:.4rem 0 .2rem}
+.landing-stamps .stamp-link{
+  position:relative;display:flex;flex-direction:column;align-items:center;gap:.7rem;width:min(37vw,210px);
+  text-decoration:none;color:var(--cream);outline:none;-webkit-tap-highlight-color:transparent;
+  transition:transform .5s cubic-bezier(.2,.8,.2,1),opacity .45s ease;
+}
+.landing-stamps .lift{display:block;width:100%;filter:drop-shadow(0 12px 14px var(--stamp-shadow));transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.landing-stamps #enter-ishita .lift{transform:rotate(-4deg)}
+.landing-stamps #enter-shreyam .lift{transform:rotate(3deg) translateY(10px)}
+.landing-stamps .stamp-link:hover .lift,.landing-stamps .stamp-link:focus-visible .lift{transform:rotate(0) translateY(-10px) scale(1.04)}
+.landing-stamps .perf{
+  --r:6px;display:block;padding:calc(2*var(--r));background:var(--cream);
+  -webkit-mask:
+    radial-gradient(var(--r),var(--m-off) 98%,var(--m-on)) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(var(--m-on) 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+          mask:
+    radial-gradient(var(--r),var(--m-off) 98%,var(--m-on)) round calc(-1.5*var(--r)) calc(-1.5*var(--r))/calc(3*var(--r)) calc(3*var(--r)),
+    linear-gradient(var(--m-on) 0 0) no-repeat 50%/calc(100% - 3*var(--r)) calc(100% - 3*var(--r));
+}
+.landing-stamps .art{display:flex;flex-direction:column;align-items:center;position:relative;padding:10% 8% 8%;color:var(--ink)}
+.landing-stamps #enter-ishita .art{background:var(--her-bg)} .landing-stamps #enter-shreyam .art{background:var(--his-bg)}
+.landing-stamps .art svg{width:100%;height:auto;display:block}
+.landing-stamps .value{position:absolute;top:5%;left:7%;font-family:var(--f-serif);font-weight:600;font-size:clamp(.8rem,3vw,1.1rem);line-height:1}
+.landing-stamps .post{position:absolute;top:6%;right:7%;font-size:clamp(.4rem,1.4vw,.52rem);letter-spacing:.2em;text-transform:uppercase;font-weight:500}
+.landing-stamps .name{font-family:var(--f-serif);font-weight:600;font-size:clamp(1.1rem,4.4vw,1.7rem);line-height:1;margin-top:.35em}
+.landing-stamps .role{font-size:clamp(.46rem,1.7vw,.6rem);letter-spacing:.24em;text-transform:uppercase;color:var(--maroon);margin-top:.35em;font-weight:500}
+.landing-stamps .cta{font-size:clamp(.52rem,1.9vw,.66rem);letter-spacing:.24em;text-transform:uppercase;font-weight:500;text-align:center;
+  border-bottom:1px solid currentColor;padding-bottom:.25em;opacity:.9}
+.landing-stamps .stamp-link:hover .cta,.landing-stamps .stamp-link:focus-visible .cta{opacity:1}
+.landing-stamps .stamp-link:focus-visible .perf{outline:2px solid var(--gold-lt)}
+.landing-stamps .postmark{position:absolute;width:118%;left:30%;top:-12%;pointer-events:none;opacity:0;
+  transform:scale(1.7) rotate(8deg);transition:opacity .3s ease,transform .3s ease}
+.landing-stamps .stamp-link:hover .postmark,.landing-stamps .stamp-link:focus-visible .postmark{opacity:.22;transform:scale(1) rotate(-10deg)}
+.landing-stamps .stamp-link.chosen .postmark{opacity:.9;transform:scale(1) rotate(-10deg);animation:thump .45s cubic-bezier(.3,1.6,.5,1) both}
+.landing-stamps .stamp-link.chosen .lift{transform:rotate(0) translateY(-10px) scale(1.06)}
+.landing-stamps.leaving .stamp-link:not(.chosen){opacity:0;transform:translateY(24px) scale(.94)}
+.landing-stamps .hint{display:flex;align-items:center;gap:.7em;font-size:.64rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold-lt)}
+.landing-stamps .hint::before,.landing-stamps .hint::after{content:"";width:24px;height:1px;background:currentColor;opacity:.7}
+.landing-stamps .deco{position:absolute;z-index:2;pointer-events:none}
+.landing-stamps .lotus{width:clamp(84px,20vw,150px);left:-4%;top:30%;animation:sway 7s ease-in-out infinite}
+.landing-stamps .paisley{width:clamp(46px,10vw,78px);right:-2%;bottom:-3%;transform:rotate(12deg)}
+@keyframes amble{0%,100%{transform:translateY(-82%) rotate(0)}50%{transform:translateY(-84%) rotate(-1.5deg)}}
+@keyframes sway{0%,100%{transform:rotate(-6deg)}50%{transform:rotate(6deg)}}
+@keyframes thump{0%{opacity:0;transform:scale(1.8) rotate(10deg)}100%{opacity:.9;transform:scale(1) rotate(-10deg)}}
+@media (max-width:420px){ .landing-stamps .lotus{top:34%;left:-6%} }

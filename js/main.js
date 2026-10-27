@@ -199,23 +199,54 @@
   }
   function revealChrome() { $('#topbar').classList.add('show'); $('#garland').classList.add('show'); }
 
-  function clearEntering() { document.documentElement.classList.remove('entering'); }
+  function clearEntering() { document.documentElement.classList.remove('entering', 'side-ishita', 'side-shreyam', 'seen'); }
   // The entrance — opaque curtain, palki (bride) / baraat (groom) parade, and the lift — is 100% CSS,
   // started before first paint via html.entering + side-/seen- classes (see the <head> script). That
   // means it keeps moving the moment the page paints and never waits for this script to download.
   // JS only sets the name order, reveals the chrome, and clears the class once the CSS has finished
   // so the overlay fully releases. The pre-paint script already recorded the repeat-visit flag.
+  // In-page entrance: a stamp click raises the translucent veil + palki/baraat parade, jumps behind
+  // it to #home, then lifts. It's all one page now, so there is no navigation.
+  function playEntrance(side) {
+    var root = document.documentElement;
+    setLead(side);
+    if (reduce) { revealChrome(); goTo('#home', true); cleanupLanding(); return; }
+    // let the chosen stamp's thump read for a beat, then raise the veil and jump behind it
+    setTimeout(function () {
+      root.classList.add('entering', 'side-' + side);
+      goTo('#home', true);
+      revealChrome();
+      setTimeout(function () { clearEntering(); cleanupLanding(); }, 2300);
+    }, 300);
+  }
+  function cleanupLanding() {
+    var sec = $('.landing-stamps'); if (sec) sec.classList.remove('leaving');
+    $$('.stamp-link.chosen').forEach(function (el) { el.classList.remove('chosen'); });
+  }
+  // Deep link (?side=ishita|shreyam): the <head> script set the pre-paint classes; jump into the
+  // experience and let the CSS entrance play. A normal load just shows the landing at the top.
   function initEntry() {
     var root = document.documentElement;
     var m = /[?&]side=(ishita|shreyam)\b/.exec(location.search);
-    if (!m) { clearEntering(); revealChrome(); return; }
+    if (!m) { clearEntering(); return; }
     setLead(m[1]);
     revealChrome();
-    var dur = root.classList.contains('seen') ? 800 : 2500;   // match the CSS entrance length
+    goTo('#home', true);
+    var dur = root.classList.contains('seen') ? 800 : 2300;
     if (reduce) dur = 60;
     setTimeout(clearEntering, dur);
   }
   function initLanding() {
+    // stamp click → in-page entrance (no page navigation)
+    $$('a[data-side]').forEach(function (a) {
+      a.addEventListener('click', function (ev) {
+        if (ev.metaKey || ev.ctrlKey || ev.shiftKey || ev.altKey || ev.button) return;
+        ev.preventDefault();
+        var sec = $('.landing-stamps'); if (sec) sec.classList.add('leaving');
+        a.classList.add('chosen');
+        playEntrance(a.getAttribute('data-side'));
+      });
+    });
     // chrome appears once past the landing regardless of how they got there
     if (window.ScrollTrigger) {
       ScrollTrigger.create({ trigger: '#home', start: 'top 70%', onEnter: revealChrome, onLeaveBack: function () { $('#topbar').classList.remove('show'); $('#garland').classList.remove('show'); } });
