@@ -308,14 +308,14 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .event.wardrobe-open .event__flip{transform:rotateY(180deg)}
 .event__front,.event__back{grid-area:1/1; -webkit-backface-visibility:hidden; backface-visibility:hidden;
   background:rgba(255,255,255,.92); border:1px solid rgba(201,162,75,.4); border-radius:18px; box-shadow:var(--shadow); overflow:hidden}
-.event__front{display:flex; flex-direction:column; padding:22px 24px}
+.event__front{display:flex; flex-direction:column; justify-content:space-between; padding:22px 24px}
 .event__back{transform:rotateY(180deg); display:flex; flex-direction:column}
 .event__day{font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--gold-dk)}
 .event__name{font-size:2rem; color:var(--maroon); margin:.05em 0 .02em; font-weight:500}
 .event__fn{font-family:var(--f-serif); font-style:italic; font-size:1.15rem; color:var(--green-dk); margin:0 0 .4em}
 .event__meta{display:flex; gap:1rem; flex-wrap:wrap; color:var(--ink-soft); font-size:.9rem; margin-bottom:.6rem}
 .event__meta b{color:var(--ink); font-weight:500}
-.event__note{color:var(--ink-soft); font-style:italic; font-family:var(--f-serif); font-size:1.1rem; margin:.2em 0 1rem}
+.event__note{color:var(--ink-soft); font-style:italic; font-family:var(--f-serif); font-size:1.1rem; margin:.2em 0 0}
 .dress{display:flex; align-items:center; gap:.7rem; flex-wrap:wrap; margin-bottom:1rem}
 .dress__label{font-size:.72rem; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-soft)}
 .swatches{display:flex; gap:6px}
@@ -327,7 +327,7 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .event__cal:hover{color:var(--gold-dk)}
 /* front-face foot — Add-to-calendar, the flip control, and the "just show up" callout,
    anchored to the bottom so the front fills the flip height cleanly */
-.event__foot{margin-top:auto; padding-top:1rem}
+.event__foot{padding-top:0}
 .event__actions{display:flex; align-items:center; gap:12px 20px; flex-wrap:wrap}
 .event__wardrobe{display:inline-flex; align-items:center; gap:.5em; cursor:pointer;
   font-family:var(--f-sans); font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase;

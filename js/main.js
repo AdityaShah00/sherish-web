@@ -77,7 +77,7 @@
               '<div class="event__foot">' +
                 '<div class="event__actions">' +
                   '<a class="event__cal" href="' + gcal(e) + '" target="_blank" rel="noopener">＋ Add to calendar</a>' +
-                  '<button class="event__wardrobe" type="button" aria-expanded="false">See what to wear <span class="ew-ico" aria-hidden="true">↻</span></button>' +
+                  '<button class="event__wardrobe" type="button" aria-expanded="false">Tap for outfit inspiration <span class="ew-ico" aria-hidden="true">↻</span></button>' +
                 '</div>' +
                 '<p class="event__wardrobe-note">Feel free to vibe with our wardrobe planner, or just show up in your favorite fit.</p>' +
               '</div>' +
