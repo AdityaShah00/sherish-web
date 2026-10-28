@@ -219,8 +219,9 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .jh-finial{fill:var(--gold-dk)}
 .home__text{flex:1 1 320px; max-width:520px; text-align:center}
 .names{font-size:clamp(2.6rem,8vw,4.6rem); color:var(--maroon); display:flex; flex-direction:column;
-  align-items:center; line-height:.98; font-weight:500}
-.names em{font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.62em; margin:.02em 0}
+  align-items:center; line-height:1.0; font-weight:500}
+.names em{font-family:var(--f-script); font-style:normal; color:var(--gold); font-size:.6em; line-height:1;
+  margin:.22em 0; display:block}
 .tagline{font-family:var(--f-serif); font-style:italic; font-size:1.4rem; color:var(--ink-soft); margin:.2em 0 .1em}
 .home__date{letter-spacing:.24em; text-transform:uppercase; font-size:.82rem; color:var(--gold-dk); margin:.4em 0 1.4em}
 .countdown{display:flex; gap:clamp(8px,2vw,18px); justify-content:center; flex-wrap:wrap}
