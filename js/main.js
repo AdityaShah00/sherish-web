@@ -416,8 +416,8 @@
     if (balloon) { var e = arc.getPointAtLength(arc.getTotalLength()); balloon.setAttribute('transform', 'translate(' + e.x + ',' + e.y + ') scale(3)'); }
     $$('.event').forEach(function (ev) { ev.classList.add('is-in'); });
     var gf = $('#garlandFill'); if (gf) gf.style.strokeDashoffset = 0;
-    var vl = $('#venueNowLabel'); if (vl) vl.textContent = 'The Central Courtyard';
-    var vs = $('#venueNowSub'); if (vs) vs.textContent = 'Ceremony & Reception';
+    var vl = $('#venueNowLabel'); if (vl) vl.textContent = 'The Palace';
+    var vs = $('#venueNowSub'); if (vs) vs.textContent = '';
     revealChrome();
   }
 

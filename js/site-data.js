@@ -42,7 +42,7 @@ window.SITE = {
   events: [
     {
       key: 'shubharambh', name: 'Shubh Aarambh', fn: 'Mehendi & Carnival', day: 'Mon · 23 Feb',
-      venue: 'Imperial Room',
+      venue: 'Imperial Ballroom',
       dress: 'Color Pop',
       colors: ['#C8266B', '#1E7FC2', '#5BA842'],
       outfit: 'outfit-shubharambh.webp',
