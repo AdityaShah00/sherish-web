@@ -110,16 +110,16 @@ html.entering #transition{visibility:visible}
    while the palki/baraat cross, then lifts. Image loading is solved elsewhere, not by covering it. */
 .veil{position:absolute; inset:0; opacity:0; background:
   radial-gradient(circle at 50% 40%, rgba(122,31,43,.0), rgba(94,22,34,.96))}
-html.entering .veil{animation:veilHold 2.2s linear forwards}
+html.entering .veil{animation:veilHold 2.9s linear forwards}
 @keyframes veilHold{0%,70%{opacity:1} 100%{opacity:0; visibility:hidden}}
 
 .rider{position:absolute; bottom:7vh; left:50%; width:min(88vw,540px); height:auto; opacity:0;
   will-change:transform; filter:drop-shadow(0 8px 14px rgba(0,0,0,.3))}
 /* only the side you chose parades across — a slow, legible stroll (centred via calc), not a zip */
 html.entering.side-ishita #palki,
-html.entering.side-shreyam #baraat{opacity:1; animation:riderCross 2.05s linear forwards}
+html.entering.side-shreyam #baraat{opacity:1; animation:riderCross 2.7s linear forwards}
 html.entering.side-ishita #palki .rider__g,
-html.entering.side-shreyam #baraat .rider__g{animation:riderBob .62s ease-in-out infinite}
+html.entering.side-shreyam #baraat .rider__g{animation:riderBob .72s ease-in-out infinite}
 @keyframes riderCross{
   0%{transform:translateX(calc(-50% - 110vw))}
   26%{transform:translateX(calc(-50% - 30vw))}
@@ -286,9 +286,6 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .venue__overlay h2{font-size:clamp(1.7rem,4.4vw,3rem); color:#fff; margin:.1em 0; text-shadow:0 2px 22px rgba(0,0,0,.6)}
 .venue__overlay p{color:rgba(255,255,255,.9); margin:.2em 0}
 .venue__dates{color:var(--gold-lt) !important; letter-spacing:.2em; text-transform:uppercase; font-size:.74rem; margin-top:.6em !important}
-.venue__now{position:absolute; left:0; right:0; bottom:12vh; text-align:center; color:#fff; z-index:2; padding:0 20px}
-.venue__now-label{display:block; font-family:var(--f-serif); font-size:clamp(1.6rem,4.4vw,2.7rem); font-weight:500; text-shadow:0 2px 22px rgba(0,0,0,.7)}
-.venue__now-sub{display:block; letter-spacing:.26em; text-transform:uppercase; font-size:.72rem; color:var(--gold-lt); margin-top:.4em}
 .venue__track{position:absolute; left:50%; transform:translateX(-50%); bottom:7vh; width:min(60vw,320px); height:2px; background:rgba(255,255,255,.25); z-index:2; border-radius:2px}
 .venue__bar{display:block; height:100%; width:0; background:var(--gold-lt); border-radius:2px}
 
@@ -333,16 +330,25 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
   font-size:1.1rem; letter-spacing:.02em; padding:9px 14px; white-space:nowrap}
 .event__media img{flex:1 1 auto; width:100%; min-height:0; object-fit:contain; padding:12px; transform:scale(.97); transition:transform .6s var(--ease)}
 .timeline.wardrobe-on .event__media img{transform:scale(1)}
-/* floating wardrobe-planner toggle (visible only while the events section is on screen) */
-.wardrobe-btn{position:fixed; left:50%; bottom:22px; transform:translateX(-50%) translateY(18px); z-index:65;
-  display:inline-flex; align-items:center; gap:.4em; padding:13px 24px; border-radius:999px; border:1px solid var(--gold);
-  background:var(--maroon); color:#fff; font-family:var(--f-sans); font-size:.82rem; letter-spacing:.04em; cursor:pointer;
-  box-shadow:0 14px 34px -10px rgba(94,55,30,.6); opacity:0; pointer-events:none;
-  transition:opacity .4s, transform .4s var(--ease), background .3s}
-.wardrobe-btn.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0)}
-.wardrobe-btn:hover{background:var(--maroon-deep)}
-.wardrobe-btn.is-on{background:var(--green-dk); border-color:var(--green)}
-.wardrobe-btn span{opacity:.72; font-size:.92em}
+/* floating wardrobe-planner toggle (visible only while the events section is on screen) —
+   deliberately eye-catching so it isn't missed: larger, gold-edged, a hanger icon, and a soft
+   pulsing halo that draws the eye until the guest hovers or opens it. */
+.wardrobe-btn{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(18px); z-index:65;
+  display:inline-flex; align-items:center; gap:.55em; padding:15px 30px; border-radius:999px; border:2px solid var(--gold-lt);
+  background:linear-gradient(180deg,#8a2f27,var(--maroon-deep)); color:#fff; font-family:var(--f-sans);
+  font-size:.92rem; font-weight:600; letter-spacing:.05em; cursor:pointer;
+  box-shadow:0 16px 40px -10px rgba(94,55,30,.7), 0 0 0 0 rgba(226,190,120,.55); opacity:0; pointer-events:none;
+  transition:opacity .4s, transform .4s var(--ease), background .3s, box-shadow .3s}
+.wardrobe-btn::before{content:""; width:1.15em; height:1.15em; flex:0 0 auto;
+  background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E3C87F' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4a1.8 1.8 0 1 1 1.4 2.9c-.8.3-1.4.9-1.4 1.8'/%3E%3Cpath d='M12 8.7 3.3 15c-1 .7-.5 2.3.7 2.3h16c1.2 0 1.7-1.6.7-2.3L12 8.7Z'/%3E%3C/svg%3E")}
+.wardrobe-btn.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); animation:wardrobeBeacon 2.6s ease-in-out infinite}
+.wardrobe-btn:hover{background:linear-gradient(180deg,var(--maroon),var(--maroon-deep)); animation:none}
+.wardrobe-btn.is-on{background:linear-gradient(180deg,var(--green),var(--green-dk)); border-color:var(--green); animation:none}
+.wardrobe-btn span{opacity:.8; font-size:.9em; font-weight:400}
+@keyframes wardrobeBeacon{
+  0%,100%{box-shadow:0 16px 40px -10px rgba(94,55,30,.7), 0 0 0 0 rgba(226,190,120,.5)}
+  55%{box-shadow:0 16px 40px -10px rgba(94,55,30,.7), 0 0 0 12px rgba(226,190,120,0)}
+}
 /* larger event boxes on desktop (mobile keeps its compact layout) */
 @media(min-width:761px){
   .timeline{max-width:640px}
@@ -631,7 +637,7 @@ body.still .garland__fill{stroke-dashoffset:0 !important}
 
 /* Optically centre the Great Vibes script glyphs — their ink sits ~0.07–0.11em right of the advance
    box, so a box-centered glyph looks off; nudge left to centre the visible mark. */
-.names em{transform:translateX(-0.07em)}
+.names em{transform:translate(-0.07em,0.09em)}  /* +Y optically centres the script & between the name lines */
 .landing-stamps .wordmark{display:block;transform:translateX(-0.1em)}
 .landing-stamps .hint{justify-content:center;text-align:center}
 

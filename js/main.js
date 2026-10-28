@@ -168,16 +168,21 @@
     (container || petalLayer).appendChild(p);
     p.addEventListener('animationend', function () { p.remove(); });
   }
+  // How many petals should be on screen at once — scales with viewport width so wide
+  // screens don't look sparse and phones don't look crowded (recomputed live on resize).
+  function petalTarget() { return Math.max(5, Math.min(22, Math.round(window.innerWidth / 110))); }
   function ambientPetals() {
     if (reduce) return;
-    setInterval(function () {
-      if (document.hidden) return;
-      if (petalLayer.childElementCount < 8) spawnPetal();
-    }, 1500);
+    (function tick() {
+      if (!document.hidden && petalLayer.childElementCount < petalTarget()) spawnPetal();
+      // spawn cadence tracks the target so denser screens fill (and refill) faster
+      setTimeout(tick, Math.max(360, Math.min(1700, Math.round(8000 / petalTarget()))));
+    })();
   }
   function petalBurst() {
     var host = $('#finalePetals');
-    for (var i = 0; i < 26; i++) {
+    var N = Math.max(26, Math.min(52, Math.round(window.innerWidth / 42)));
+    for (var i = 0; i < N; i++) {
       (function (i) {
         setTimeout(function () { spawnPetal(host, { top: '-4%', dur: 5 + Math.random() * 4 }); }, i * 70);
       })(i);
@@ -216,7 +221,7 @@
       root.classList.add('entering', 'side-' + side);
       goTo('#home', true);
       revealChrome();
-      setTimeout(function () { clearEntering(); cleanupLanding(); }, 2300);
+      setTimeout(function () { clearEntering(); cleanupLanding(); }, 3000);
     }, 300);
   }
   function cleanupLanding() {
@@ -232,7 +237,7 @@
     setLead(m[1]);
     revealChrome();
     goTo('#home', true);
-    var dur = root.classList.contains('seen') ? 800 : 2300;
+    var dur = root.classList.contains('seen') ? 800 : 3000;
     if (reduce) dur = 60;
     setTimeout(clearEntering, dur);
   }

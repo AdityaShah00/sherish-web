@@ -33,9 +33,9 @@ window.SITE = {
 
   /* RSVP — fill the number (country code + number, digits only) before deploy.
      Leave '' to hide the WhatsApp button until you're ready. */
-  rsvpWhatsapp: '',            // e.g. '919812345678'
+  rsvpWhatsapp: '919724305951',   // +91-9724305951 (same line for both sides)
   rsvpMessage: "Hi! We'd love to RSVP for Ishita & Shreyam's wedding 💍",
-  travelWhatsapp: '',          // travel-desk WhatsApp (country code + number, digits only)
+  travelWhatsapp: '919724305951', // travel desk — same number as RSVP
 
   /* Events — chronological. `date` (YYYY-MM-DD) drives all-day calendar entries.
      Times are intentionally omitted (TBD). `colors` = dress-code swatches. */
