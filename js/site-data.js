@@ -41,7 +41,7 @@ window.SITE = {
      Times are intentionally omitted (TBD). `colors` = dress-code swatches. */
   events: [
     {
-      key: 'shubharambh', name: 'Shubh Aarambh', fn: 'Mehendi & Carnival', day: 'Mon · 23 Feb',
+      key: 'shubharambh', name: 'Shubh Aarambh', fn: 'Mehendi & Carnival', day: 'Tue · 23 Feb',
       venue: 'Imperial Ballroom',
       dress: 'Color Pop',
       colors: ['#C8266B', '#1E7FC2', '#5BA842'],
@@ -50,7 +50,7 @@ window.SITE = {
       date: '2027-02-23',
     },
     {
-      key: 'shimmer', name: 'Shimmer & Shine', fn: 'Sangeet', day: 'Mon · 23 Feb',
+      key: 'shimmer', name: 'Shimmer & Shine', fn: 'Sangeet', day: 'Tue · 23 Feb',
       venue: 'Regency Ballroom',
       dress: 'Evening Bling',
       colors: ['#141414', '#7A1F2B', '#C0A15A'],
@@ -59,7 +59,7 @@ window.SITE = {
       date: '2027-02-23',
     },
     {
-      key: 'floral', name: 'The Floral Fair', fn: 'Haldi & Phoolon Ki Holi', day: 'Tue · 24 Feb',
+      key: 'floral', name: 'The Floral Fair', fn: 'Haldi & Phoolon Ki Holi', day: 'Wed · 24 Feb',
       venue: 'Navras Bagh',
       dress: 'Florals & Pastels',
       colors: ['#F4C430', '#8BC34A', '#F39FC0'],
@@ -68,7 +68,7 @@ window.SITE = {
       date: '2027-02-24',
     },
     {
-      key: 'vows', name: 'The Sacred Vows', fn: 'Wedding', day: 'Tue · 24 Feb',
+      key: 'vows', name: 'The Sacred Vows', fn: 'Wedding', day: 'Wed · 24 Feb',
       venue: 'Chauras Bagh',
       dress: 'Your Ethnic Best',
       colors: ['#8E1B2E', '#E6C19A', '#C9A24B'],

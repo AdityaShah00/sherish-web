@@ -1,0 +1,17 @@
+# Ishita & Shreyam — a private wedding site for our invited guests.
+# Please don't crawl or index this site, and don't use it for AI training.
+# A guest's own assistant, fetching a page the guest has directly asked
+# about (not crawling or indexing), is welcome — see the allowances below.
+
+User-agent: *
+Disallow: /
+
+# Assistants that fetch a page on a person's direct request may read the site:
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
