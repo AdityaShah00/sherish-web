@@ -295,15 +295,21 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .crest-motif{display:block; margin:0 auto 6px; height:clamp(160px,26vw,220px); width:auto;
   filter:drop-shadow(0 8px 16px rgba(120,80,30,.2))}
 .events__sub{color:var(--ink-soft); font-size:.9rem}
-.timeline{position:relative; max-width:600px; margin:0 auto; padding:20px 0; transition:max-width .6s var(--ease)}
-.timeline.wardrobe-on{max-width:1020px}
+.timeline{position:relative; max-width:600px; margin:0 auto; padding:20px 0}
 .timeline::before{content:""; position:absolute; left:18px; top:0; bottom:0; width:2px;
   background:linear-gradient(var(--gold-lt),var(--gold),var(--gold-lt)); opacity:.5}
-.event{position:relative; display:flex; align-items:stretch; gap:0; margin:6vh 0 6vh 46px}
+.event{position:relative; margin:6vh 0 6vh 46px}
 .event__node{position:absolute; left:-46px; top:28px; width:16px; height:16px; border-radius:50%;
   background:var(--gold); border:3px solid var(--cream); z-index:2; box-shadow:0 0 0 3px rgba(201,162,75,.35)}
-.event__card{flex:1 1 auto; min-width:0; background:rgba(255,255,255,.9); border:1px solid rgba(201,162,75,.4);
-  border-radius:18px; padding:22px 24px; box-shadow:var(--shadow)}
+/* flip card: the card is just a 3D perspective wrapper; the two faces carry the styling.
+   The faces share one grid cell, so the card auto-sizes to the taller face (no fixed height). */
+.event__card{position:relative; perspective:1600px}
+.event__flip{position:relative; display:grid; transform-style:preserve-3d; transition:transform .75s var(--ease)}
+.event.wardrobe-open .event__flip{transform:rotateY(180deg)}
+.event__front,.event__back{grid-area:1/1; -webkit-backface-visibility:hidden; backface-visibility:hidden;
+  background:rgba(255,255,255,.92); border:1px solid rgba(201,162,75,.4); border-radius:18px; box-shadow:var(--shadow); overflow:hidden}
+.event__front{display:flex; flex-direction:column; padding:22px 24px}
+.event__back{transform:rotateY(180deg); display:flex; flex-direction:column}
 .event__day{font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--gold-dk)}
 .event__name{font-size:2rem; color:var(--maroon); margin:.05em 0 .02em; font-weight:500}
 .event__fn{font-family:var(--f-serif); font-style:italic; font-size:1.15rem; color:var(--green-dk); margin:0 0 .4em}
@@ -319,40 +325,31 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .event__cal{display:inline-flex; align-items:center; gap:.4em; font-size:.74rem; letter-spacing:.12em;
   text-transform:uppercase; color:var(--maroon); text-decoration:none; border-bottom:1px solid var(--gold); padding-bottom:2px}
 .event__cal:hover{color:var(--gold-dk)}
-/* wardrobe planner — hidden until toggled on, then slides out from behind the card */
-.event__media{position:relative; display:flex; flex-direction:column; flex:0 0 0%; width:0; opacity:0; overflow:hidden;
-  border-radius:18px; align-self:stretch; min-height:320px; transform:translateX(-24px); pointer-events:none;
-  background:radial-gradient(circle at 50% 30%, #fff, var(--cream-2)); border:1px solid rgba(201,162,75,0);
-  transition:flex-basis .6s var(--ease), opacity .5s ease, transform .6s var(--ease), margin-left .6s var(--ease), border-color .6s, box-shadow .6s}
-.timeline.wardrobe-on .event__media{flex:0 0 44%; opacity:1; transform:none; margin-left:26px; pointer-events:auto;
-  border-color:rgba(201,162,75,.4); box-shadow:var(--shadow)}
+/* front-face foot — Add-to-calendar, the flip control, and the "just show up" callout,
+   anchored to the bottom so the front fills the flip height cleanly */
+.event__foot{margin-top:auto; padding-top:1rem}
+.event__actions{display:flex; align-items:center; gap:12px 20px; flex-wrap:wrap}
+.event__wardrobe{display:inline-flex; align-items:center; gap:.5em; cursor:pointer;
+  font-family:var(--f-sans); font-size:.72rem; font-weight:600; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--maroon); background:rgba(194,162,78,.16); border:1px solid var(--gold); border-radius:999px;
+  padding:7px 16px; transition:background .25s, color .25s, border-color .25s}
+.event__wardrobe:hover,.event__wardrobe:focus-visible{background:var(--gold); color:#fff; outline:none}
+.event__wardrobe .ew-ico{font-size:1.05em; line-height:1}
+.event__wardrobe-note{margin:.7em 0 0; font-family:var(--f-serif); font-style:italic;
+  font-size:.92rem; line-height:1.4; color:var(--ink-soft)}
+/* back face — the outfit guide (landscape image) */
 .event__dress{flex:0 0 auto; text-align:center; background:var(--green-dk); color:#fff; font-family:var(--f-serif);
   font-size:1.1rem; letter-spacing:.02em; padding:9px 14px; white-space:nowrap}
-.event__media img{flex:1 1 auto; width:100%; min-height:0; object-fit:contain; padding:12px; transform:scale(.97); transition:transform .6s var(--ease)}
-.timeline.wardrobe-on .event__media img{transform:scale(1)}
-/* floating wardrobe-planner toggle (visible only while the events section is on screen) —
-   deliberately eye-catching so it isn't missed: larger, gold-edged, a hanger icon, and a soft
-   pulsing halo that draws the eye until the guest hovers or opens it. */
-.wardrobe-btn{position:fixed; left:50%; bottom:26px; transform:translateX(-50%) translateY(18px); z-index:65;
-  display:inline-flex; align-items:center; gap:.55em; padding:15px 30px; border-radius:999px; border:2px solid var(--gold-lt);
-  background:linear-gradient(180deg,#8a2f27,var(--maroon-deep)); color:#fff; font-family:var(--f-sans);
-  font-size:.92rem; font-weight:600; letter-spacing:.05em; cursor:pointer;
-  box-shadow:0 16px 40px -10px rgba(94,55,30,.7), 0 0 0 0 rgba(226,190,120,.55); opacity:0; pointer-events:none;
-  transition:opacity .4s, transform .4s var(--ease), background .3s, box-shadow .3s}
-.wardrobe-btn::before{content:""; width:1.15em; height:1.15em; flex:0 0 auto;
-  background:center/contain no-repeat url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23E3C87F' stroke-width='1.7' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 4a1.8 1.8 0 1 1 1.4 2.9c-.8.3-1.4.9-1.4 1.8'/%3E%3Cpath d='M12 8.7 3.3 15c-1 .7-.5 2.3.7 2.3h16c1.2 0 1.7-1.6.7-2.3L12 8.7Z'/%3E%3C/svg%3E")}
-.wardrobe-btn.show{opacity:1; pointer-events:auto; transform:translateX(-50%) translateY(0); animation:wardrobeBeacon 2.6s ease-in-out infinite}
-.wardrobe-btn:hover{background:linear-gradient(180deg,var(--maroon),var(--maroon-deep)); animation:none}
-.wardrobe-btn.is-on{background:linear-gradient(180deg,var(--green),var(--green-dk)); border-color:var(--green); animation:none}
-.wardrobe-btn span{opacity:.8; font-size:.9em; font-weight:400}
-@keyframes wardrobeBeacon{
-  0%,100%{box-shadow:0 16px 40px -10px rgba(94,55,30,.7), 0 0 0 0 rgba(226,190,120,.5)}
-  55%{box-shadow:0 16px 40px -10px rgba(94,55,30,.7), 0 0 0 12px rgba(226,190,120,0)}
-}
+.event__back img{flex:1 1 auto; width:100%; min-height:0; object-fit:contain; max-height:min(46vh,300px);
+  padding:14px; background:radial-gradient(circle at 50% 30%, #fff, var(--cream-2))}
+.event__flipback{flex:0 0 auto; cursor:pointer; background:none; border:0; border-top:1px solid rgba(201,162,75,.3);
+  color:var(--maroon); font-family:var(--f-sans); font-size:.72rem; font-weight:600; letter-spacing:.12em;
+  text-transform:uppercase; padding:12px; transition:color .25s, background .25s}
+.event__flipback:hover{color:var(--gold-dk); background:rgba(194,162,78,.1)}
+/* (the old floating wardrobe button was removed — each card now flips to show its outfit) */
 /* larger event boxes on desktop (mobile keeps its compact layout) */
 @media(min-width:761px){
   .timeline{max-width:640px}
-  .timeline.wardrobe-on{max-width:1040px}
   .event{margin:8vh 0 8vh 54px}
   .event__node{left:-54px}
   .event__card{padding:28px 34px}
@@ -433,23 +430,14 @@ body:not(.preload) .half--shreyam .half__img img{animation:ink 2.6s var(--ease) 
 .omodal__name{font-family:var(--f-serif); color:var(--gold-lt); font-size:1.9rem; margin:.5em 0 .1em; font-weight:500}
 .omodal__dress{color:#fff; letter-spacing:.12em; text-transform:uppercase; font-size:.74rem; margin:0}
 .omodal__sw{display:flex; gap:8px; justify-content:center; margin-top:.9em}
-@media(max-width:760px){
-  .event__media{cursor:pointer}
-  .event__view{display:inline-block; position:absolute; bottom:8px; left:50%; transform:translateX(-50%);
-    background:rgba(122,31,43,.9); color:#fff; font-size:.62rem; letter-spacing:.14em; text-transform:uppercase;
-    padding:4px 12px; border-radius:999px; white-space:nowrap; pointer-events:none}
-}
+/* (old mobile outfit-tap pill removed — the outfit now lives on the back of each flip card) */
 
 /* ============================ responsive ============================ */
 @media(max-width:760px){
   .home{gap:24px; padding-top:16vh}
   .home__frame{width:min(72vw,300px)}
-  .timeline,.timeline.wardrobe-on{max-width:none; margin:0}
-  .event{flex-direction:column; margin:5vh 0 5vh 30px}
-  .event__media{flex:none; width:auto; min-height:0; max-height:0; align-self:auto; transform:none; margin-left:0;
-    transition:max-height .55s var(--ease), opacity .5s, margin-top .5s, border-color .5s, box-shadow .5s}
-  .timeline.wardrobe-on .event__media{max-height:100vw; margin-top:14px; margin-left:0}
-  .event__media img{height:auto}
+  .timeline{max-width:none; margin:0}
+  .event{margin:5vh 0 5vh 30px}
   .timeline::before{left:14px}
   .event__node{left:-30px}
   .venue{height:200vh}

@@ -67,16 +67,28 @@
       el.innerHTML =
         '<div class="event__node"></div>' +
         '<div class="event__card">' +
-          '<div class="event__day">' + e.day + '</div>' +
-          '<h3 class="event__name">' + e.name + '</h3>' +
-          (e.fn ? '<div class="event__fn">' + e.fn + '</div>' : '') +
-          '<div class="event__meta"><span>📍 <b>' + e.venue + '</b></span></div>' +
-          '<p class="event__note">' + e.note + '</p>' +
-          '<a class="event__cal" href="' + gcal(e) + '" target="_blank" rel="noopener">＋ Add to calendar</a>' +
-        '</div>' +
-        '<div class="event__media">' +
-          '<div class="event__dress">' + e.dress + '</div>' +
-          '<img src="assets/' + e.outfit + '" alt="Outfit suggestions for ' + e.name + '"></div>';
+          '<div class="event__flip">' +
+            '<div class="event__front">' +
+              '<div class="event__day">' + e.day + '</div>' +
+              '<h3 class="event__name">' + e.name + '</h3>' +
+              (e.fn ? '<div class="event__fn">' + e.fn + '</div>' : '') +
+              '<div class="event__meta"><span>📍 <b>' + e.venue + '</b></span></div>' +
+              '<p class="event__note">' + e.note + '</p>' +
+              '<div class="event__foot">' +
+                '<div class="event__actions">' +
+                  '<a class="event__cal" href="' + gcal(e) + '" target="_blank" rel="noopener">＋ Add to calendar</a>' +
+                  '<button class="event__wardrobe" type="button" aria-expanded="false">See what to wear <span class="ew-ico" aria-hidden="true">↻</span></button>' +
+                '</div>' +
+                '<p class="event__wardrobe-note">Feel free to vibe with our wardrobe planner, or just show up in your favorite fit.</p>' +
+              '</div>' +
+            '</div>' +
+            '<div class="event__back">' +
+              '<div class="event__dress">' + e.dress + '</div>' +
+              '<img src="assets/' + e.outfit + '" alt="Outfit suggestions for ' + e.name + '">' +
+              '<button class="event__flipback" type="button">↩ Back to the details</button>' +
+            '</div>' +
+          '</div>' +
+        '</div>';
       tl.appendChild(el);
     });
   }
@@ -441,23 +453,21 @@
   }
 
   /* ------------------------------------------------ wardrobe planner reveal */
+  // Each event card flips to reveal its outfit guide on the back. The flip control on the
+  // front and the "back to details" control on the back both toggle that card's .wardrobe-open.
   function initWardrobe() {
-    var btn = $('#wardrobeBtn'), tl = $('#timeline'); if (!btn || !tl) return;
-    btn.addEventListener('click', function () {
-      var on = tl.classList.toggle('wardrobe-on');
-      btn.classList.toggle('is-on', on);
-      btn.innerHTML = on ? 'Hide the wardrobe planner' : 'Help me plan my wardrobe <span>(optional)</span>';
-      // recompute pinned/triggered positions once the layout transition settles
-      if (window.ScrollTrigger) { setTimeout(function () { ScrollTrigger.refresh(); }, 680); }
+    var tl = $('#timeline'); if (!tl) return;
+    $$('.event', tl).forEach(function (ev) {
+      var flip = $('.event__wardrobe', ev), back = $('.event__flipback', ev);
+      function setOpen(on) {
+        ev.classList.toggle('wardrobe-open', on);
+        if (flip) flip.setAttribute('aria-expanded', on ? 'true' : 'false');
+        // recompute scroll-trigger positions once the flip settles (card height can change)
+        if (window.ScrollTrigger) { setTimeout(function () { ScrollTrigger.refresh(); }, 760); }
+      }
+      if (flip) flip.addEventListener('click', function () { setOpen(!ev.classList.contains('wardrobe-open')); });
+      if (back) back.addEventListener('click', function () { setOpen(false); });
     });
-    // show the button only while the cards are on screen — IntersectionObserver is
-    // immune to the stale-position issues that plagued the ScrollTrigger approach.
-    if (window.IntersectionObserver) {
-      var io = new IntersectionObserver(function (entries) {
-        btn.classList.toggle('show', entries[0].isIntersecting);
-      }, { rootMargin: '-15% 0px -15% 0px' });
-      io.observe(tl);
-    } else { btn.classList.add('show'); }
   }
 
   /* ------------------------------------------------ live weather (travel) */
