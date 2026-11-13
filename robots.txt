@@ -1,7 +1,7 @@
-# Ishita & Shreyam — a private wedding site for our invited guests.
+# Ishita & Shreyam, a private wedding site for our invited guests.
 # Please don't crawl or index this site, and don't use it for AI training.
 # A guest's own assistant, fetching a page the guest has directly asked
-# about (not crawling or indexing), is welcome — see the allowances below.
+# about (not crawling or indexing), is welcome. See the allowances below.
 
 User-agent: *
 Disallow: /

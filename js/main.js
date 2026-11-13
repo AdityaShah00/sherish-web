@@ -110,7 +110,7 @@
   function gcal(e) {
     var loc = S.venue.name + ', ' + S.venue.city;
     return 'https://calendar.google.com/calendar/render?action=TEMPLATE' +
-      '&text=' + encodeURIComponent(e.name + ' — ' + S.couple.bride + ' & ' + S.couple.groom) +
+      '&text=' + encodeURIComponent(e.name + ': ' + S.couple.bride + ' & ' + S.couple.groom) +
       '&dates=' + dc(e.date) + '/' + dcNext(e.date) +
       '&location=' + encodeURIComponent(loc) +
       '&details=' + encodeURIComponent(e.note);
@@ -125,7 +125,7 @@
       // button ships hidden in the HTML (so it never flashes on a slow load) — show a note instead
       var note = document.createElement('p');
       note.style.cssText = 'color:rgba(255,255,255,.75);font-size:.8rem;margin:.4em 0 0;letter-spacing:.04em';
-      note.textContent = 'RSVP link coming soon — check back shortly 💌';
+      note.textContent = 'RSVP link coming soon, check back shortly 💌';
       $('.finale__actions').appendChild(note);
     }
     // Save the Date — full itinerary .ics
@@ -133,7 +133,7 @@
     S.events.forEach(function (e) {
       lines.push('BEGIN:VEVENT', 'UID:' + e.key + '@sherish.live', 'DTSTAMP:' + icsStamp(new Date().toISOString()),
         'DTSTART;VALUE=DATE:' + dc(e.date), 'DTEND;VALUE=DATE:' + dcNext(e.date),
-        'SUMMARY:' + esc(e.name + ' — ' + S.couple.bride + ' & ' + S.couple.groom),
+        'SUMMARY:' + esc(e.name + ': ' + S.couple.bride + ' & ' + S.couple.groom),
         'LOCATION:' + esc(S.venue.name + ', ' + S.venue.city),
         'DESCRIPTION:' + esc(e.note + ' · Dress: ' + e.dress), 'END:VEVENT');
     });

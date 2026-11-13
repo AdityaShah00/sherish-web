@@ -55,7 +55,7 @@ window.SITE = {
       dress: 'Evening Bling',
       colors: ['#141414', '#7A1F2B', '#C0A15A'],
       outfit: 'outfit-shimmer.webp',
-      note: 'An evening of performances, dancing and dinner — dressed to dazzle.',
+      note: 'An evening of performances, dancing and dinner, dressed to dazzle.',
       date: '2027-02-23',
     },
     {
@@ -64,7 +64,7 @@ window.SITE = {
       dress: 'Florals & Pastels',
       colors: ['#F4C430', '#8BC34A', '#F39FC0'],
       outfit: 'outfit-floral.webp',
-      note: 'Turmeric, a shower of flower petals and sunshine — soft and fresh.',
+      note: 'Turmeric, a shower of flower petals and sunshine, soft and fresh.',
       date: '2027-02-24',
     },
     {
@@ -73,7 +73,7 @@ window.SITE = {
       dress: 'Your Ethnic Best',
       colors: ['#8E1B2E', '#E6C19A', '#C9A24B'],
       outfit: 'outfit-vows.webp',
-      note: 'The pheras, beneath the stars of the Pink City — in your ethnic best.',
+      note: 'The pheras, beneath the stars of the Pink City, in your ethnic best.',
       date: '2027-02-24',
     },
   ],
